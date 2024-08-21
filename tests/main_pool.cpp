@@ -1,5 +1,5 @@
-#include "pool.hpp"
 #include <iostream>
+#include "pool.hpp"
 
 class TestObject {
 public:
