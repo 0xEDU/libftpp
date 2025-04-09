@@ -24,16 +24,21 @@ public:
 
 	TType* operator->() { return nullptr; };
 
-	template<typename... TArgs>
+	template<typename T>
 	class Object {
 	public:
-		Object();
-		Object(const Object&);
-		Object& operator=(const Object&);
-		~Object();
+		Object() {};
+		Object(const Object&) {};
+		Object& operator=(const Object&) {};
+		~Object() {};
 
-		Object<TType> acquire(TArgs&&... p_args) {};
+		TType* operator->() {
+			return nullptr;
+		};
 	};
+
+	template<typename... TArgs>
+	Pool::Object<TType> acquire(TArgs&&... p_args);
 };
 
 #endif // !POOL_HPP
