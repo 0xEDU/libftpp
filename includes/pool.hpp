@@ -10,7 +10,7 @@
 // What happens if we try to acquire more than we have in the pool?
 template <typename TType>
 class Pool {
-	TType *objectRawPool = nullptr;
+	TType *objectRawPool = nullptr; // Here smart pointers should be a better alternative, still need to know how to use them
 public:
 	Pool() {};
 	Pool(const Pool& rhs) { *this = rhs;};
