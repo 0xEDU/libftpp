@@ -1,18 +1,19 @@
 #ifndef POOL_HPP
 #define POOL_HPP
 
+#include <algorithm>
 #include <cstddef>
+#include <memory>
+#include <vector>
 
 // This is a memory pool data structure
-// My current idea is a raw pointer 'pool' and somewhat of a 'ledger' pointer
-// to control which memory areas are usable and which aren't
 //
 // What happens if we try to acquire more than we have in the pool?
 template <typename TType>
 class Pool {
-	TType *objectRawPool = nullptr; // Here smart pointers should be a better alternative, still need to know how to use them
+	std::vector<std::shared_ptr<TType>> objectRawPool; // Here smart pointers should be a better alternative, still need to know how to use them
 public:
-	Pool() {};
+	Pool() : objectRawPool() {};
 	Pool(const Pool& rhs) { *this = rhs;};
 	Pool& operator=(const Pool& rhs) {
 		if (this != &rhs) {
@@ -22,19 +23,14 @@ public:
 	~Pool() {};
 
 	void resize(const size_t& numberOfObjectStored) {
-		if (objectRawPool != nullptr) {
-			// Call destructor for each object in the pool
-			delete[] objectRawPool;
-		}
-		objectRawPool = new TType[numberOfObjectStored];
+		objectRawPool.resize(numberOfObjectStored);
 	};
 
 	class Object {
 	private:
-		TType *object = nullptr;
+		std::unique_ptr<TType> object = nullptr;
 	public:
 		Object() {};
-		Object(TType* p_object) : object(p_object) {};
 		Object(const Object& rhs) { *this = rhs; };
 		Object& operator=(const Object& rhs) {
 			if (this != &rhs) {
@@ -50,15 +46,17 @@ public:
 
 	template<typename... TArgs>
 	Pool::Object acquire(TArgs&&... p_args) {
-		if (objectRawPool == nullptr) {
-			// Call constructor for the object
+		auto it = std::find_if(objectRawPool.begin(), objectRawPool.end(), [](const std::shared_ptr<TType>& p_object) {
+			return p_object.use_count() < 2;
+		});
+		if (it != objectRawPool.end()) {
+			(*it)->~TType();
+			*it = std::make_shared<TType>(std::forward<TArgs>(p_args)...);
 			return Object();
 		}
-		// Need to define how to get the next object in the pool
-		// Ledger?
-		TType *poolObject = objectRawPool + sizeof(TType);
-
-		return Object();
+		else {
+			return Object();
+		}
 	}
 };
 
