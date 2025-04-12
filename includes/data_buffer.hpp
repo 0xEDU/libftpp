@@ -1,3 +1,6 @@
+#ifndef DATA_BUFFER_HPP
+#define DATA_BUFFER_HPP
+
 #include <cstdint>
 #include <cstring>
 #include <stdexcept>
@@ -31,3 +34,5 @@ public:
 	DataBuffer &operator<<(const std::string &str);
 	DataBuffer &operator>>(std::string &str);
 };
+
+#endif // !DATA_BUFFER_HPP
