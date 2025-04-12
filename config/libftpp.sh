@@ -6,7 +6,8 @@ compile() {
 	# Remove path from first param
 	PROGRAM_NAME=$(basename "$1")
 	PROGRAM_NAME="${PROGRAM_NAME%.*}"
-	c++ -Wall -Wextra -Werror --std=c++20 -o ./$PROGRAM_NAME.out $1
+	echo $@
+	c++ -Wall -Wextra -Werror --std=c++20 -o ./$PROGRAM_NAME.out $@
 }
 
 clean() {
