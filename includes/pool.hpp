@@ -7,57 +7,51 @@
 #include <vector>
 
 // This is a memory pool data structure
-//
-// What happens if we try to acquire more than we have in the pool?
-template <typename TType>
-class Pool {
-	std::vector<std::shared_ptr<TType>> objectRawPool; // Here smart pointers should be a better alternative, still need to know how to use them
+template <typename TType> class Pool {
+  std::vector<std::shared_ptr<TType>> objectRawPool;
+
 public:
-	Pool() : objectRawPool() {};
-	Pool(const Pool& rhs) { *this = rhs;};
-	Pool& operator=(const Pool& rhs) {
-		if (this != &rhs) {
-		}
-		return *this;
-	};
-	~Pool() {};
+  Pool() = default;
+  Pool(const Pool &) = delete;            // Prevent copying
+  Pool &operator=(const Pool &) = delete; // Prevent assignment
+  ~Pool() = default;
 
-	void resize(const size_t& numberOfObjectStored) {
-		objectRawPool.resize(numberOfObjectStored);
-	};
+  void resize(const size_t &numberOfObjectStored) {
+    objectRawPool.resize(numberOfObjectStored);
+    for (size_t i = 0; i < numberOfObjectStored; ++i) {
+      objectRawPool[i] = std::make_shared<TType>();
+    }
+  };
 
-	class Object {
-	private:
-		std::unique_ptr<TType> object = nullptr;
-	public:
-		Object() {};
-		Object(const Object& rhs) { *this = rhs; };
-		Object& operator=(const Object& rhs) {
-			if (this != &rhs) {
+  class Object {
+  private:
+    std::shared_ptr<TType> object = nullptr;
+
+  public:
+    Object() = default;
+    ~Object() = default;
+    Object(std::shared_ptr<TType> p) : object(std::move(p)) {}
+
+    TType *operator->() { return object.get(); };
+  };
+
+  template <typename... TArgs> Pool::Object acquire(TArgs &&...p_args) {
+    auto it = std::find_if(
+			objectRawPool.begin(),
+			objectRawPool.end(),
+			[](const std::shared_ptr<TType> &p_object) {
+				return p_object.use_count() < 2;
 			}
-			return *this;
-		};
-		~Object() {};
-
-		TType* operator->() {
-			return nullptr;
-		};
-	};
-
-	template<typename... TArgs>
-	Pool::Object acquire(TArgs&&... p_args) {
-		auto it = std::find_if(objectRawPool.begin(), objectRawPool.end(), [](const std::shared_ptr<TType>& p_object) {
-			return p_object.use_count() < 2;
-		});
-		if (it != objectRawPool.end()) {
-			(*it)->~TType();
-			*it = std::make_shared<TType>(std::forward<TArgs>(p_args)...);
-			return Object();
-		}
-		else {
-			return Object();
-		}
-	}
+		);
+    if (it != objectRawPool.end()) {
+      *(*it) = TType(std::forward<TArgs>(p_args)...);
+      return Object(*it);
+    } else {
+      *it = std::make_shared<TType>(std::forward<TArgs>(p_args)...);
+      objectRawPool.push_back(*it);
+      return Object(*it);
+    }
+  }
 };
 
 #endif // !POOL_HPP
