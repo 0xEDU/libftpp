@@ -8,7 +8,9 @@ DataBuffer::DataBuffer(const DataBuffer &rhs) {
 }
 
 DataBuffer &DataBuffer::operator=(const DataBuffer &rhs) {
-	if (this != &rhs) {}
+	if (this != &rhs) {
+		dataBuffer = rhs.dataBuffer;
+	}
 	return *this;
 }
 
