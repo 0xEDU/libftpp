@@ -9,7 +9,7 @@ public:
     std::string y;
 
 private:
-    void _saveToSnapshot(Snapshot& snapshotToFill) override {
+    void _saveToSnapshot(Snapshot& snapshotToFill) const override {
         snapshotToFill << x << y;
     }
 
