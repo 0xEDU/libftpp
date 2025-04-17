@@ -7,8 +7,6 @@
 #include <set>
 #include <stdexcept>
 
-// What's the difference between transition and action?
-// Maps might be a good option here
 template <typename TState> class StateMachine {
 private:
   std::unique_ptr<TState> currentState = nullptr;
