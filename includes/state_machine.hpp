@@ -62,15 +62,16 @@ public:
   }
 
   void transitionTo(const TState &state) {
-    if (states.find(state) == states.end()) {
-      throw std::invalid_argument("State not found");
-    }
+		// Check if transition is valid
+		auto it = transitions.find(*currentState);
+		if (it == transitions.end() || it->second.find(state) == it->second.end()) {
+			throw std::invalid_argument("Invalid transition");
+		}
     if (*currentState == state)
       return;
 
     executeTransition(*currentState);
 		currentState = std::make_unique<TState>(state);
-    executeAction(*currentState);
   }
 
   void update() {
