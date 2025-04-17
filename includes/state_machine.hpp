@@ -11,26 +11,26 @@
 // Maps might be a good option here
 template <typename TState> class StateMachine {
 private:
-	std::unique_ptr<TState> currentState = nullptr;
+  std::unique_ptr<TState> currentState = nullptr;
   std::set<TState> states;
   std::map<TState, std::function<void()>> actions;
   std::map<TState, std::map<TState, std::function<void()>>> transitions;
 
   void executeAction(const TState &state) {
-		auto it = actions.find(state);
-		if (it != actions.end()) {
-			it->second();
-		}
-	}
+    auto it = actions.find(state);
+    if (it != actions.end()) {
+      it->second();
+    }
+  }
 
   void executeTransition(const TState &state) {
-		auto it = transitions.find(state);
-		if (it != transitions.end()) {
-			for (const auto &pair : it->second) {
-				pair.second();
-			}
-		}
-	}
+    auto it = transitions.find(state);
+    if (it != transitions.end()) {
+      for (const auto &pair : it->second) {
+        pair.second();
+      }
+    }
+  }
 
 public:
   StateMachine() = default;
@@ -39,11 +39,11 @@ public:
   ~StateMachine() = default;
 
   void addState(const TState &state) {
-		if (currentState == nullptr) {
-			currentState = std::make_unique<TState>(state);
-		}
-		states.insert(state);
-	}
+    if (currentState == nullptr) {
+      currentState = std::make_unique<TState>(state);
+    }
+    states.insert(state);
+  }
 
   void addTransition(const TState &startState, const TState &finalState,
                      const std::function<void()> &lambda) {
@@ -62,24 +62,24 @@ public:
   }
 
   void transitionTo(const TState &state) {
-		// Check if transition is valid
-		auto it = transitions.find(*currentState);
-		if (it == transitions.end() || it->second.find(state) == it->second.end()) {
-			throw std::invalid_argument("Invalid transition");
-		}
+    // Check if transition is valid
+    auto it = transitions.find(*currentState);
+    if (it == transitions.end() || it->second.find(state) == it->second.end()) {
+      throw std::invalid_argument("Invalid transition");
+    }
     if (*currentState == state)
       return;
 
     executeTransition(*currentState);
-		currentState = std::make_unique<TState>(state);
+    currentState = std::make_unique<TState>(state);
   }
 
   void update() {
-		if (states.find(*currentState) == states.end()) {
-			throw std::invalid_argument("State not found");
-		}
-		executeAction(*currentState);
-	}
+    if (states.find(*currentState) == states.end()) {
+      throw std::invalid_argument("State not found");
+    }
+    executeAction(*currentState);
+  }
 };
 
 #endif // !STATE_MACHINE_HPP
