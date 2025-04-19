@@ -8,6 +8,22 @@ public:
   ThreadSafeQueue(const ThreadSafeQueue&) = delete;
   ThreadSafeQueue& operator=(const ThreadSafeQueue&) = delete;
   ~ThreadSafeQueue() = default;
+
+  void push_back(const TType& newElement) {
+    
+  }
+
+  void push_front(const TType& newElement) {
+    
+  }
+
+  TType pop_back(const & newElement) {
+    
+  }
+
+  TType pop_front(const TType& newElement) {
+    
+  }
 };
 
 #endif
