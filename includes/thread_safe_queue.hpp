@@ -25,16 +25,20 @@ public:
 		deque.push_front(newElement);
   }
 
-  TType pop_back(const & newElement) {
+  TType pop_back() {
 		std::lock_guard<std::mutex> lock(mtx);
 		if (deque.empty()) throw std::runtime_error("Queue is empty!");
+		auto last = *(deque.end());
 		deque.pop_back();
+		return last;
   }
 
-  TType pop_front(const TType& newElement) {
+  TType pop_front() {
 		std::lock_guard<std::mutex> lock(mtx);
 		if (deque.empty()) throw std::runtime_error("Queue is empty!");
+		auto first = *(deque.begin());
 		deque.pop_front();
+		return first;
   }
 };
 
