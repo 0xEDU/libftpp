@@ -15,7 +15,7 @@ compile() {
 	PROGRAM_NAME=$(basename "$1")
 	PROGRAM_NAME="${PROGRAM_NAME%.*}"
 	echo $@
-	c++ -Wall -Wextra -Werror --std=c++20 $DEBUG -o ./$PROGRAM_NAME.out $@
+	c++ -Wall -Wextra -Werror --std=c++20 -I./includes $DEBUG -pthreads -o ./$PROGRAM_NAME.out $@
 }
 
 clean() {
