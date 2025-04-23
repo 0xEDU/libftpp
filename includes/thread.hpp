@@ -12,6 +12,8 @@ class Thread {
 	std::unique_ptr<std::thread> thread = nullptr;
 	ThreadSafeIOStream stream;
 
+	void execThread();
+
 public:
 	Thread();
 	Thread(const Thread&);

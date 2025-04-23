@@ -19,10 +19,14 @@ Thread::Thread(const std::string& name, std::function<void()> functToExecute) : 
 }
 
 void Thread::start() {
-	threadSafeCout.setPrefix(name);
-	thread = std::make_unique<std::thread>(func);
+	thread = std::make_unique<std::thread>(this->execThread);
 }
 
 void Thread::stop() {
 	thread->join();
+}
+
+void Thread::execThread() {
+	threadSafeCout.setPrefix(name);
+	func();
 }
