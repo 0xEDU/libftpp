@@ -15,11 +15,12 @@ Thread &Thread::operator=(const Thread& rhs) {
 Thread::~Thread() = default;
 
 
-Thread::Thread(const std::string& name, std::function<void()> functToExecute) : name(name), func(functToExecute), thread(), stream() {
+Thread::Thread(const std::string& name, std::function<void()> functToExecute) : name(), func(functToExecute), thread(), stream() {
+	this->name = "[" + name + "] ";
 }
 
 void Thread::start() {
-	thread = std::make_unique<std::thread>(this->execThread);
+	thread = std::make_unique<std::thread>(&Thread::execThread, this);
 }
 
 void Thread::stop() {
