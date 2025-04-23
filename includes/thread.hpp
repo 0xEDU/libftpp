@@ -9,7 +9,7 @@
 class Thread {
 	std::string name;
 	std::function<void()> func;
-	std::unique_pointer<std::thread> thread = nullptr;
+	std::unique_ptr<std::thread> thread = nullptr;
 	ThreadSafeIOStream stream;
 
 public:

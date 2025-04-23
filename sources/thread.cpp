@@ -16,11 +16,13 @@ Thread::~Thread() = default;
 
 
 Thread::Thread(const std::string& name, std::function<void()> functToExecute) : name(name), func(functToExecute), thread(), stream() {
-	stream.setPrefix(name);
 }
 
 void Thread::start() {
+	threadSafeCout.setPrefix(name);
+	thread = std::make_unique<std::thread>(func);
 }
 
 void Thread::stop() {
+	thread->join();
 }
