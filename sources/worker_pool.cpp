@@ -11,6 +11,7 @@ WorkerPool& WorkerPool::operator=(const WorkerPool& rhs) {
 };
 WorkerPool::~WorkerPool() = default;
 
+// Not pretty sure what this needs to do
 WorkerPool::WorkerPool(int numWorkers) {
 }
 
