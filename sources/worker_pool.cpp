@@ -12,6 +12,7 @@ WorkerPool& WorkerPool::operator=(const WorkerPool& rhs) {
 WorkerPool::~WorkerPool() = default;
 
 // Not pretty sure what this needs to do
+// Implement threads picking up a job, maybe like a job board?
 WorkerPool::WorkerPool(int numWorkers) {
 }
 
