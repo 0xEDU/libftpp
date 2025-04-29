@@ -9,6 +9,10 @@ Thread::Thread(const Thread& rhs) {
 }
 Thread &Thread::operator=(const Thread& rhs) {
 	if (this != &rhs) {
+		name = rhs.name;
+		func = rhs.func;
+		thread = nullptr;
+		stream = rhs.stream;
 	}
 	return *this;
 }
