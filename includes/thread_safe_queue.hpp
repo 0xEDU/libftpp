@@ -1,7 +1,7 @@
 #ifndef THREAD_SAFE_QUEUE_HPP
 #define THREAD_SAFE_QUEUE_HPP
 
-#include <queue>
+#include <deque>
 #include <mutex>
 
 template<typename TType>
