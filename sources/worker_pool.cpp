@@ -11,10 +11,23 @@ WorkerPool& WorkerPool::operator=(const WorkerPool& rhs) {
 };
 WorkerPool::~WorkerPool() = default;
 
-// Not pretty sure what this needs to do
-// Implement threads picking up a job, maybe like a job board?
 WorkerPool::WorkerPool(int numWorkers) {
+	threads.resize(numWorkers);
+	for (int i = 0; i < numWorkers; ++i) {
+		// My pool implementation is probably slopy, should add someting better
+		auto thread = threads.acquire("Worker " + std::to_string(i), [this]() {
+			while (true) {
+				try {
+					auto job = jobsQueue.pop_front();
+					job();
+				} catch(const std::runtime_error& e) {
+					std::this_thread::sleep_for(std::chrono::milliseconds(100));
+				}
+			}
+		});
+	}
 }
 
-void WorkerPool::addJob(std::function<void()>& jobToExecute) {
+void WorkerPool::addJob(const std::function<void()>& jobToExecute) {
+	jobsQueue.push_back(jobToExecute);
 }

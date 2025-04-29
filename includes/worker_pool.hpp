@@ -4,10 +4,11 @@
 #include <functional>
 #include "../includes/thread_safe_queue.hpp"
 #include "../includes/thread.hpp"
+#include "../includes/pool.hpp"
 
 class WorkerPool {
-	ThreadSafeQueue<std::function<void()>> tsQueue;
-	std::vector<Thread> threads;
+	ThreadSafeQueue<std::function<void()>> jobsQueue;
+	Pool<Thread> threads;
 
 public:
 	WorkerPool();
@@ -16,7 +17,7 @@ public:
 	~WorkerPool();
 
 	WorkerPool(int numWorkers);
-	void addJob(std::function<void()>& jobToExecute);
+	void addJob(const std::function<void()>& jobToExecute);
 };
 
 #endif // !WORKER_POOL_HPP
