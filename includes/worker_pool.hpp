@@ -19,6 +19,11 @@ public:
 
 	WorkerPool(int numWorkers);
 	void addJob(const std::function<void()>& jobToExecute);
+
+	class IJobs {
+	public:
+		virtual ~IJobs() = default;
+	};
 };
 
 #endif // !WORKER_POOL_HPP
