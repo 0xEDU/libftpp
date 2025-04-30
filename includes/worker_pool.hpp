@@ -4,11 +4,12 @@
 #include <functional>
 #include "../includes/thread_safe_queue.hpp"
 #include "../includes/thread.hpp"
-#include "../includes/pool.hpp"
 
 class WorkerPool {
+	static std::mutex haltMutex;
+	bool halt = false;
 	ThreadSafeQueue<std::function<void()>> jobsQueue;
-	Pool<Thread> threads;
+	std::vector<std::unique_ptr<Thread>> threads;
 
 public:
 	WorkerPool();

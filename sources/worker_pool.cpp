@@ -1,4 +1,7 @@
 #include "../includes/worker_pool.hpp"
+#include <string>
+
+std::mutex WorkerPool::haltMutex;
 
 WorkerPool::WorkerPool() = default;
 WorkerPool::WorkerPool(const WorkerPool& rhs) {
@@ -9,22 +12,37 @@ WorkerPool& WorkerPool::operator=(const WorkerPool& rhs) {
 	}
 	return *this;
 };
-WorkerPool::~WorkerPool() = default;
+WorkerPool::~WorkerPool() {
+	{
+		std::lock_guard<std::mutex> lock(haltMutex);
+		halt = true;
+	}
+	for (auto& thread : threads) {
+		thread->stop();
+	}
+}
 
 WorkerPool::WorkerPool(int numWorkers) {
 	threads.resize(numWorkers);
+
 	for (int i = 0; i < numWorkers; ++i) {
-		// My pool implementation is probably slopy, should add someting better
-		auto thread = threads.acquire("Worker " + std::to_string(i), [this]() {
+		threads[i] = std::make_unique<Thread>("Worker " + std::to_string(i), [this]() {
 			while (true) {
 				try {
 					auto job = jobsQueue.pop_front();
 					job();
-				} catch(const std::runtime_error& e) {
+				} catch (const std::exception& e) {
 					std::this_thread::sleep_for(std::chrono::milliseconds(100));
+				}
+				{
+					std::lock_guard<std::mutex> lock(haltMutex);
+					if (halt) {
+						break;
+					}
 				}
 			}
 		});
+		threads[i]->start();
 	}
 }
 
