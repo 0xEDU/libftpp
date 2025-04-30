@@ -1,5 +1,4 @@
 #include "../includes/worker_pool.hpp"
-#include <string>
 
 std::mutex WorkerPool::haltMutex;
 
