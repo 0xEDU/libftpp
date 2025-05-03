@@ -12,8 +12,8 @@ class Message {
 public:
 
 	Message() = default;
-	Message(const Message&) = default;
-	Message& operator=(const Message&) = default;
+	Message(const Message&);
+	Message& operator=(const Message&);
 	~Message() = default;
 
 	Message(Type type);
