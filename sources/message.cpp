@@ -16,3 +16,5 @@ Message &Message::operator=(const Message &rhs) {
 Message::Message(int type) : m_type(type) {}
 
 int Message::type() { return m_type; }
+
+int Message::type() const { return m_type; }
