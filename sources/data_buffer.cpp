@@ -33,3 +33,15 @@ DataBuffer &DataBuffer::operator>>(std::string &str) {
 	dataBuffer.erase(dataBuffer.begin(), dataBuffer.begin() + length);
 	return *this;
 }
+
+uint32_t DataBuffer::size() const {
+	return static_cast<uint32_t>(dataBuffer.size());
+}
+
+uint8_t *DataBuffer::data() {
+	return dataBuffer.data();
+}
+
+void DataBuffer::load(const uint8_t *data, uint32_t size) {
+	dataBuffer.assign(data, data + size);
+}
