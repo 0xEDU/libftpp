@@ -9,10 +9,13 @@ void Client::connect(const std::string &address, const size_t port) {
   sockaddr_in serverAddress;
   serverAddress.sin_family = AF_INET;
   serverAddress.sin_port = htons(port);
-  if (inet_pton(AF_INET, address.c_str(), &serverAddress.sin_addr) <= 0) {
-    perror("inet_pton");
-    exit(EXIT_FAILURE);
-  }
+
+	hostent *host = gethostbyname(address.c_str());
+	if (host == nullptr) {
+		herror("gethostbyname");
+		exit(EXIT_FAILURE);
+	}
+	serverAddress.sin_addr = *(struct in_addr *)*host->h_addr_list;
 
   if (::connect(clientSocket, (struct sockaddr *)&serverAddress,
                 sizeof(serverAddress)) == -1) {
@@ -36,7 +39,13 @@ void Client::defineAction(
 }
 
 void Client::send(const Message &msg) {
-	if (::send(clientSocket, &msg, sizeof(msg), 0) == -1) {
+	DataBuffer msgData;
+	msg.serialize(msgData);
+
+	DataBuffer payload;
+	payload << msgData.size();
+	payload << msgData.data();
+	if (::send(clientSocket, payload.data(), payload.size(), 0) == -1) {
 		perror("send");
 		exit(EXIT_FAILURE);
 	}

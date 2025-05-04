@@ -76,9 +76,28 @@ void Server::update() {
     long long clientID = it->first;
     int socket = it->second;
 
-    Message msg;
-    ssize_t bytesReceived = recv(socket, &msg, sizeof(msg), 0);
+    uint8_t sizeBuffer[4];
+    ssize_t bytesReceived = recv(socket, &sizeBuffer, 4, 0);
     if (bytesReceived > 0) {
+      uint32_t msgSize;
+      std::memcpy(&msgSize, sizeBuffer, 4);
+      std::vector<uint8_t> rawBuffer(msgSize);
+
+      while (rawBuffer.size() < msgSize) {
+        ssize_t bytesRead = recv(socket, rawBuffer.data() + rawBuffer.size(),
+                                 msgSize - rawBuffer.size(), 0);
+        if (bytesRead <= 0) {
+          break;
+        }
+        rawBuffer.resize(rawBuffer.size() + bytesRead);
+      }
+
+      DataBuffer msgData;
+      msgData.load(rawBuffer.data(), msgSize);
+
+      Message msg;
+      msg.deserialize(msgData);
+
       auto actionIt = actions.find(msg.type());
       if (actionIt != actions.end()) {
         actionIt->second(clientID, msg);
