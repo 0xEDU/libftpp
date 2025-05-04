@@ -7,8 +7,10 @@
 #include <cstddef>
 #include <functional>
 #include <map>
+#include <netdb.h>
 #include <netinet/in.h>
 #include <string>
+#include <sys/types.h>
 #include <sys/socket.h>
 #include <unistd.h>
 

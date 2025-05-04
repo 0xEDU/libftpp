@@ -6,7 +6,7 @@
 
 class Message {
 	int m_type;
-	DataBuffer m_dataBuffer;
+	mutable DataBuffer m_dataBuffer;
 
 public:
 	using Type = int;
@@ -18,12 +18,23 @@ public:
 
 	Message(Type type);
 	int type();
+	int type() const;
 
 	template<typename T>
 	friend const Message& operator<<(const Message&, const T& object);
 
 	template<typename T>
 	friend const Message& operator>>(const Message&, T& object);
+
+	void serialize(DataBuffer& buffer) const {
+		buffer << m_type;
+		buffer << m_dataBuffer;
+	}
+
+	void deserialize(DataBuffer& buffer) {
+		buffer >> m_type;
+		buffer >> m_dataBuffer;
+	}
 };
 
 template<typename T>
