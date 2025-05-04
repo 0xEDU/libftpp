@@ -31,8 +31,26 @@ public:
 		return *this;
 	};
 
+	template<typename T>
+	friend const DataBuffer &operator<<(const DataBuffer &buffer, const T &object);
+
+	template<typename T>
+	friend const DataBuffer &operator>>(const DataBuffer &buffer, T &object);
+
 	DataBuffer &operator<<(const std::string &str);
 	DataBuffer &operator>>(std::string &str);
 };
+
+template<typename T>
+const DataBuffer &operator<<(const DataBuffer &buffer, const T &object) {
+	buffer << object;
+	return buffer;
+}
+
+template<typename T>
+const DataBuffer &operator>>(const DataBuffer &buffer, T &object) {
+	buffer >> object;
+	return buffer;
+}
 
 #endif // !DATA_BUFFER_HPP
