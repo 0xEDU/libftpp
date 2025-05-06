@@ -95,6 +95,7 @@ void Server::update() {
       DataBuffer msgData;
       msgData.load(rawBuffer.data(), msgSize);
 
+			// Deserialization is broken, dunno how to fix it
       Message msg;
       msg.deserialize(msgData);
 
