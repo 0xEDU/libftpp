@@ -2,13 +2,13 @@
 
 // Pollfd operator overloads
 bool operator==(const pollfd &lhs, const pollfd &rhs) {
-	return (lhs.events == rhs.events && lhs.fd == rhs.fd && lhs.revents == rhs.revents);
+  return (lhs.events == rhs.events && lhs.fd == rhs.fd &&
+          lhs.revents == rhs.revents);
 };
 
 bool operator==(const pollfd &pollfd, const int &clientFd) {
-	return (pollfd.fd == clientFd);
+  return (pollfd.fd == clientFd);
 }
-
 
 void Server::start(const size_t &p_port) {
   // Create socket
@@ -58,25 +58,71 @@ void Server::defineAction(
 }
 
 void Server::sendTo(const Message &msg, long long &clientID) {
-  (void)clientID;
-  (void)msg;
+  auto it = clientSockets.find(clientID);
+  if (it == clientSockets.end()) {
+    // Client not found
+    return;
+  }
+  int socket = it->second;
+  std::vector<uint8_t> payload = msg.serialize();
+  uint32_t msgSize = payload.size();
+
+  if (::send(socket, &msgSize, sizeof(msgSize), 0) == -1) {
+    perror("send");
+    return;
+  }
+
+  if (::send(socket, payload.data(), payload.size(), 0) == -1) {
+    perror("send");
+    return;
+  }
 }
 
 void Server::sendToArray(const Message &message,
                          std::vector<long long> clientIDs) {
-  (void)message;
-  (void)clientIDs;
+  for (auto clientID : clientIDs) {
+    auto it = clientSockets.find(clientID);
+    if (it == clientSockets.end()) {
+      // Client not found
+      continue;
+    }
+    int socket = it->second;
+    std::vector<uint8_t> payload = message.serialize();
+    uint32_t msgSize = payload.size();
+
+    if (::send(socket, &msgSize, sizeof(msgSize), 0) == -1) {
+      perror("send");
+      return;
+    }
+
+    if (::send(socket, payload.data(), payload.size(), 0) == -1) {
+      perror("send");
+      return;
+    }
+  }
 }
 
-void Server::sendToAll(const Message &message) { (void)message; }
+void Server::sendToAll(const Message &message) {
+  for (auto it = clientSockets.begin(); it != clientSockets.end(); it++) {
+    int socket = it->second;
+    std::vector<uint8_t> payload = message.serialize();
+    uint32_t msgSize = payload.size();
 
-// Server should handle multiple clients
-// Clients will send a message to the server
-// This should check:
-// - If a new client is connected
-// - If a client has disconnected
-// - If a client has sent a message
+    if (::send(socket, &msgSize, sizeof(msgSize), 0) == -1) {
+      perror("send");
+      return;
+    }
+
+    if (::send(socket, payload.data(), payload.size(), 0) == -1) {
+      perror("send");
+      return;
+    }
+  }
+}
+
 void Server::update() {
+  std::vector<int> shouldCloseClients;
+
   if (poll(pollFDs.data(), pollFDs.size(), 0) < 0) {
     perror("poll");
     return;
@@ -128,9 +174,21 @@ void Server::update() {
         }
       } else if (bytesReceived == 0) {
         // Client disconnected
-        close(socket);
-        it = clientSockets.erase(it);
+        shouldCloseClients.push_back(clientID);
         continue;
+      }
+    }
+
+    for (auto clientID : shouldCloseClients) {
+      auto it = clientSockets.find(clientID);
+      if (it != clientSockets.end()) {
+        close(it->second);
+        clientSockets.erase(it);
+        pollFDs.erase(std::remove_if(pollFDs.begin(), pollFDs.end(),
+                                     [clientID](const pollfd &pfd) {
+                                       return pfd.fd == clientID;
+                                     }),
+                      pollFDs.end());
       }
     }
   }

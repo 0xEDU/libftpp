@@ -7,19 +7,24 @@ void Client::connect(const std::string &address, const size_t port) {
     exit(EXIT_FAILURE);
   }
 
+  if (fcntl(clientSocket, F_SETFL, O_NONBLOCK) == -1)
+    throw std::runtime_error(
+        "Failed to set the non-blocking mode on socket file descriptor");
+
   sockaddr_in serverAddress;
   serverAddress.sin_family = AF_INET;
   serverAddress.sin_port = htons(port);
 
-	hostent *host = gethostbyname(address.c_str());
-	if (host == nullptr) {
-		herror("gethostbyname");
-		exit(EXIT_FAILURE);
-	}
-	serverAddress.sin_addr = *(struct in_addr *)*host->h_addr_list;
+  hostent *host = gethostbyname(address.c_str());
+  if (host == nullptr) {
+    herror("gethostbyname");
+    exit(EXIT_FAILURE);
+  }
+  serverAddress.sin_addr = *(struct in_addr *)*host->h_addr_list;
 
-  if (::connect(clientSocket, (struct sockaddr *)&serverAddress,
-                sizeof(serverAddress)) == -1) {
+  ::connect(clientSocket, (struct sockaddr *)&serverAddress,
+            sizeof(serverAddress));
+  if (errno != EINPROGRESS) {
     perror("connect");
     exit(EXIT_FAILURE);
   }
@@ -40,30 +45,50 @@ void Client::defineAction(
 }
 
 void Client::send(const Message &msg) {
-	std::vector<uint8_t> payload = msg.serialize();
+  std::vector<uint8_t> payload = msg.serialize();
 
-	uint32_t msgSize = payload.size();
+  uint32_t msgSize = payload.size();
 
-	if (::send(clientSocket, &msgSize, sizeof(msgSize), 0) == -1) {
-		perror("send");
-		exit(EXIT_FAILURE);
-	}
+  if (::send(clientSocket, &msgSize, sizeof(msgSize), 0) == -1) {
+    perror("send");
+    exit(EXIT_FAILURE);
+  }
 
-	if (::send(clientSocket, payload.data(), payload.size(), 0) == -1) {
-		perror("send");
-		exit(EXIT_FAILURE);
-	}
+  if (::send(clientSocket, payload.data(), payload.size(), 0) == -1) {
+    perror("send");
+    exit(EXIT_FAILURE);
+  }
 }
 
 void Client::update() {
-	Message msg;
-	if (recv(clientSocket, &msg, sizeof(msg), 0) == -1) {
-		perror("recv");
-		exit(EXIT_FAILURE);
-	}
+  uint8_t sizeBuffer[4];
+  ssize_t bytesReceived =
+      ::recv(clientSocket, &sizeBuffer, sizeof(uint32_t), 0);
 
-	auto it = actions.find(msg.type());
-	if (it != actions.end()) {
-		it->second(msg);
-	}
+  if (bytesReceived > 0) {
+    uint32_t msgSize;
+    std::memcpy(&msgSize, sizeBuffer, 4);
+    std::vector<uint8_t> rawBuffer(msgSize);
+
+    while (true) {
+      ssize_t bytesRead = ::recv(clientSocket, rawBuffer.data(), msgSize, 0);
+      if (bytesRead <= 0 || bytesRead == msgSize) {
+        break;
+      }
+    }
+
+    Message msg;
+    msg.deserialize(rawBuffer);
+
+    auto actionIt = actions.find(msg.type());
+    if (actionIt != actions.end()) {
+      actionIt->second(msg);
+    }
+  } else if (bytesReceived == 0) {
+    // Server disconnected
+    disconnect();
+  } else if (errno != EAGAIN && errno != EWOULDBLOCK) {
+    perror("recv");
+    exit(EXIT_FAILURE);
+  }
 }
