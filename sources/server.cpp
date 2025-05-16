@@ -77,27 +77,24 @@ void Server::update() {
     int socket = it->second;
 
     uint8_t sizeBuffer[4];
-    ssize_t bytesReceived = recv(socket, &sizeBuffer, 4, 0);
+    ssize_t bytesReceived = recv(socket, &sizeBuffer, sizeof(uint32_t), 0);
     if (bytesReceived > 0) {
       uint32_t msgSize;
       std::memcpy(&msgSize, sizeBuffer, 4);
       std::vector<uint8_t> rawBuffer(msgSize);
 
-      while (rawBuffer.size() < msgSize) {
-        ssize_t bytesRead = recv(socket, rawBuffer.data() + rawBuffer.size(),
-                                 msgSize - rawBuffer.size(), 0);
+      while (true) {
+        ssize_t bytesRead = recv(socket, rawBuffer.data(), msgSize, 0);
         if (bytesRead <= 0) {
           break;
         }
-        rawBuffer.resize(rawBuffer.size() + bytesRead);
+        if (bytesRead == msgSize) {
+          break;
+        }
       }
 
-      DataBuffer msgData;
-      msgData.load(rawBuffer.data(), msgSize);
-
-			// Deserialization is broken, dunno how to fix it
       Message msg;
-      msg.deserialize(msgData);
+      msg.deserialize(rawBuffer);
 
       auto actionIt = actions.find(msg.type());
       if (actionIt != actions.end()) {

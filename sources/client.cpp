@@ -1,4 +1,5 @@
 #include "../includes/client.hpp"
+#include <cstdint>
 
 void Client::connect(const std::string &address, const size_t port) {
   if (clientSocket = socket(AF_INET, SOCK_STREAM, 0); clientSocket == -1) {
@@ -39,12 +40,15 @@ void Client::defineAction(
 }
 
 void Client::send(const Message &msg) {
-	DataBuffer msgData;
-	msg.serialize(msgData);
+	std::vector<uint8_t> payload = msg.serialize();
 
-	DataBuffer payload;
-	payload << msgData.size();
-	payload << msgData.data();
+	uint32_t msgSize = payload.size();
+
+	if (::send(clientSocket, &msgSize, sizeof(msgSize), 0) == -1) {
+		perror("send");
+		exit(EXIT_FAILURE);
+	}
+
 	if (::send(clientSocket, payload.data(), payload.size(), 0) == -1) {
 		perror("send");
 		exit(EXIT_FAILURE);
