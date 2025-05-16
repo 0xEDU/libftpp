@@ -10,6 +10,7 @@
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <unistd.h>
+#include <poll.h>
 
 class Server {
   int serverSocket;
@@ -19,6 +20,9 @@ class Server {
   std::map<long long, int> clientSockets; // clientID -> socket
 
 public:
+  using pollfd = struct pollfd;
+  std::vector<pollfd> pollFDs;
+
   Server() = default;
   ~Server() = default;
 
