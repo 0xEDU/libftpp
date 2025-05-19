@@ -1,4 +1,6 @@
 libftpp.a
 test
+objs/
+bin/
 *.out
 .vscode/settings.json
