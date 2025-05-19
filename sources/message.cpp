@@ -1,8 +1,5 @@
 #include "../includes/message.hpp"
 
-std::mutex ThreadSafeIOStream::mtx;
-thread_local ThreadSafeIOStream threadSafeCout;
-
 Message::Message(const Message &rhs) { *this = rhs; }
 
 Message &Message::operator=(const Message &rhs) {

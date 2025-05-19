@@ -1,6 +1,9 @@
 #include "../includes/thread_safe_iostream.hpp"
 #include <mutex>
 
+std::mutex ThreadSafeIOStream::mtx;
+thread_local ThreadSafeIOStream threadSafeCout;
+
 ThreadSafeIOStream::ThreadSafeIOStream() = default;
 ThreadSafeIOStream::~ThreadSafeIOStream() = default;
 ThreadSafeIOStream::ThreadSafeIOStream(const ThreadSafeIOStream &rhs) {

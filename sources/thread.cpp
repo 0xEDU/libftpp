@@ -1,8 +1,5 @@
 #include "../includes/thread.hpp"
 
-std::mutex ThreadSafeIOStream::mtx;
-thread_local ThreadSafeIOStream threadSafeCout;
-
 Thread::Thread() = default;
 Thread::Thread(const Thread &rhs) { *this = rhs; }
 Thread &Thread::operator=(const Thread &rhs) {
