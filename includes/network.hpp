@@ -1,6 +1,8 @@
 #ifndef NETWORK_HPP
 #define NETWORK_HPP
 
-#include "messages.hpp"
+#include "message.hpp"
+#include "client.hpp"
+#include "server.hpp"
 
 #endif // !NETWORK_HPP
