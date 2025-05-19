@@ -37,7 +37,7 @@ public:
   Snapshot save();
   void load(const Snapshot &state);
 
-  virtual void _saveToSnapshot(Snapshot &snapshotToFill) = 0;
+  virtual void _saveToSnapshot(Snapshot &snapshotToFill) const = 0;
   virtual void _loadFromSnapshot(Snapshot &snapshot) = 0;
 };
 
