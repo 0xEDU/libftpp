@@ -2,9 +2,6 @@
 #include <iostream>
 #include <thread>
 
-std::mutex ThreadSafeIOStream::mtx;
-thread_local ThreadSafeIOStream threadSafeCout;
-
 void printNumbers(const std::string &p_prefix) {
   threadSafeCout.setPrefix(p_prefix);
   for (int i = 1; i <= 5; ++i) {
