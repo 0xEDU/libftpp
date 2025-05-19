@@ -1,9 +1,10 @@
-#include "ivector2.hpp"
+#include "../includes/ivector2.hpp"
 #include <iostream>
 
 int main() {
   IVector2<int> vec1(3, 4);
   IVector2<int> vec2(1, 2);
+  IVector2<float> vec3(3.0, 4.0);
 
   std::cout << "Vec1 : " << vec1.x << " / " << vec1.y << std::endl;
   std::cout << "Vec2 : " << vec2.x << " / " << vec2.y << std::endl;
@@ -44,7 +45,7 @@ int main() {
   std::cout << "Length of vec1: " << len << "" << std::endl;
   // Expected: Length of vec1: 5 (or sqrt(3*3 + 4*4))
 
-  auto normVec = vec1.normalize();
+  auto normVec = vec3.normalize();
   std::cout << "Normalized vec1 = (" << normVec.x << ", " << normVec.y << ")"
             << std::endl;
   // Expected: Normalized vec1 = (0.6, 0.8)
@@ -53,10 +54,10 @@ int main() {
   std::cout << "Dot product of vec1 and vec2: " << dotProd << "" << std::endl;
   // Expected: Dot product of vec1 and vec2: 11 (or 3*1 + 4*2)
 
-  auto crossProd = vec1.cross();
+  auto crossProd = vec1.cross(vec2);
   std::cout << "Cross product of vec1: (" << crossProd.x << ", " << crossProd.y
             << ")" << std::endl;
-  // Expected: Cross product of vec1: (some_value, some_value)
+  // Expected: Cross product of vec1: (2, -2)
 
   return 0;
 }
