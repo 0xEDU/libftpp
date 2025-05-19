@@ -1,9 +1,10 @@
-#include "ivector3.hpp"
+#include "../includes/ivector3.hpp"
 #include <iostream>
 
 int main() {
   IVector3<int> vec1(3, 4, 1);
   IVector3<int> vec2(1, 2, 3);
+  IVector3<float> vec3(3.0, 4.0, 1.0);
 
   std::cout << "Vec1 : " << vec1.x << " / " << vec1.y << " / " << vec1.z
             << std::endl;
@@ -44,7 +45,7 @@ int main() {
   std::cout << "Length of vec1: " << len << std::endl;
   // Expected: Length of vec1: 5.099 (or sqrt(3*3 + 4*4 + 1*1))
 
-  auto normVec = vec1.normalize();
+  auto normVec = vec3.normalize();
   std::cout << "Normalized vec1 = (" << normVec.x << ", " << normVec.y << ", "
             << normVec.z << ")" << std::endl;
   // Expected: Normalized vec1 = (some_value, some_value, some_value)

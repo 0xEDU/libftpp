@@ -16,7 +16,8 @@ SRCS =	client.cpp \
 		thread_safe_iostream.cpp \
 		thread.cpp \
 		worker_pool.cpp \
-		ivector2.cpp
+		ivector2.cpp \
+		ivector3.cpp
 
 TEST_SRCS =	main_client.cpp \
 			main_data_buffer.cpp \
@@ -31,7 +32,8 @@ TEST_SRCS =	main_client.cpp \
 			main_thread_safe_iostream.cpp \
 			main_thread_safe_queue.cpp \
 			main_worker_pool.cpp \
-			main_ivector2.cpp
+			main_ivector2.cpp \
+			main_ivector3.cpp
 
 TEST_NAMES = $(patsubst %.cpp,%, $(TEST_SRCS))
 
