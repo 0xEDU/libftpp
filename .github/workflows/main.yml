@@ -20,6 +20,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           style: 'llvm'
+          version: '19'
           files-changed-only: false
           thread-comments: false
 
