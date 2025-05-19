@@ -65,7 +65,7 @@ clean:
 	@echo "[\033[31mDELETED\033[0m] Objects"
 
 fclean: clean
-	@rm -rf $(NAME) $(PATH_TESTS_OUT)
-	@echo "[\033[31mDELETED\033[0m] $(NAME) $(PATH_TESTS_OUT)"
+	@rm -rf $(NAME) $(PATH_TESTS_OUT) $(PATH_OBJS)
+	@echo "[\033[31mDELETED\033[0m] $(NAME) $(PATH_TESTS_OUT) $(PATH_OBJS)"
 
 .PHONY: all clean fclean re test
