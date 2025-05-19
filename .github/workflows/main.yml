@@ -23,6 +23,7 @@ jobs:
           version: '19'
           files-changed-only: false
           thread-comments: false
+          step-summary: true
 
       - name: Fail fast?!
         if: steps.linter.outputs.checks-failed != 0
