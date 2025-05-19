@@ -5,15 +5,15 @@
 
 #include <arpa/inet.h>
 #include <cstddef>
+#include <fcntl.h>
 #include <functional>
 #include <map>
 #include <netdb.h>
 #include <netinet/in.h>
 #include <string>
-#include <sys/types.h>
 #include <sys/socket.h>
+#include <sys/types.h>
 #include <unistd.h>
-#include <fcntl.h>
 
 class Client {
   int clientSocket;
