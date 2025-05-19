@@ -6,7 +6,6 @@
 #include <memory>
 #include <vector>
 
-// This is a memory pool data structure
 template <typename TType> class Pool {
   std::vector<std::shared_ptr<TType>> objectRawPool;
 
@@ -36,13 +35,10 @@ public:
   };
 
   template <typename... TArgs> Pool::Object acquire(TArgs &&...p_args) {
-    auto it = std::find_if(
-			objectRawPool.begin(),
-			objectRawPool.end(),
-			[](const std::shared_ptr<TType> &p_object) {
-				return p_object.use_count() < 2;
-			}
-		);
+    auto it = std::find_if(objectRawPool.begin(), objectRawPool.end(),
+                           [](const std::shared_ptr<TType> &p_object) {
+                             return p_object.use_count() < 2;
+                           });
     if (it != objectRawPool.end()) {
       *(*it) = TType(std::forward<TArgs>(p_args)...);
       return Object(*it);

@@ -3,45 +3,41 @@
 DataBuffer::DataBuffer() = default;
 DataBuffer::~DataBuffer() = default;
 
-DataBuffer::DataBuffer(const DataBuffer &rhs) {
-	*this = rhs;
-}
+DataBuffer::DataBuffer(const DataBuffer &rhs) { *this = rhs; }
 
 DataBuffer &DataBuffer::operator=(const DataBuffer &rhs) {
-	if (this != &rhs) {
-		dataBuffer = rhs.dataBuffer;
-	}
-	return *this;
+  if (this != &rhs) {
+    dataBuffer = rhs.dataBuffer;
+  }
+  return *this;
 }
 
 // std::string is weird
 DataBuffer &DataBuffer::operator<<(const std::string &str) {
-	size_t length = str.size();
-	*this << length;
-	dataBuffer.insert(dataBuffer.end(), str.begin(), str.end());
-	return *this;
+  size_t length = str.size();
+  *this << length;
+  dataBuffer.insert(dataBuffer.end(), str.begin(), str.end());
+  return *this;
 }
 
 DataBuffer &DataBuffer::operator>>(std::string &str) {
-	size_t length;
-	*this >> length;
+  size_t length;
+  *this >> length;
 
-	if (dataBuffer.size() < length) {
-		throw std::runtime_error("Not enough data to deserialize string");
-	}
-	str.assign(reinterpret_cast<const char *>(dataBuffer.data()), length);
-	dataBuffer.erase(dataBuffer.begin(), dataBuffer.begin() + length);
-	return *this;
+  if (dataBuffer.size() < length) {
+    throw std::runtime_error("Not enough data to deserialize string");
+  }
+  str.assign(reinterpret_cast<const char *>(dataBuffer.data()), length);
+  dataBuffer.erase(dataBuffer.begin(), dataBuffer.begin() + length);
+  return *this;
 }
 
 uint32_t DataBuffer::size() const {
-	return static_cast<uint32_t>(dataBuffer.size());
+  return static_cast<uint32_t>(dataBuffer.size());
 }
 
-uint8_t *DataBuffer::data() {
-	return dataBuffer.data();
-}
+uint8_t *DataBuffer::data() { return dataBuffer.data(); }
 
 void DataBuffer::load(const uint8_t *data, uint32_t size) {
-	dataBuffer.assign(data, data + size);
+  dataBuffer.assign(data, data + size);
 }

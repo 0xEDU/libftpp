@@ -6,56 +6,54 @@
 #include <sstream>
 
 class ThreadSafeIOStream {
-	static std::mutex mtx;
-	std::ostream& os = std::cout;
-	std::istream& is = std::cin;
-	std::string prefix;
-	bool needPrefix = true;
+  static std::mutex mtx;
+  std::ostream &os = std::cout;
+  std::istream &is = std::cin;
+  std::string prefix;
+  bool needPrefix = true;
 
 public:
-	ThreadSafeIOStream();
-	ThreadSafeIOStream(const ThreadSafeIOStream &);
-	ThreadSafeIOStream& operator=(const ThreadSafeIOStream &);
-	~ThreadSafeIOStream();
+  ThreadSafeIOStream();
+  ThreadSafeIOStream(const ThreadSafeIOStream &);
+  ThreadSafeIOStream &operator=(const ThreadSafeIOStream &);
+  ~ThreadSafeIOStream();
 
-	template<typename T>
-	ThreadSafeIOStream& operator<<(const T& input) {
-		std::lock_guard<std::mutex> lock(mtx);
-		if (needPrefix && !prefix.empty()) {
-			os << prefix;
-			needPrefix = false;
-		}
-		os << input;
+  template <typename T> ThreadSafeIOStream &operator<<(const T &input) {
+    std::lock_guard<std::mutex> lock(mtx);
+    if (needPrefix && !prefix.empty()) {
+      os << prefix;
+      needPrefix = false;
+    }
+    os << input;
 
-		// If ended in newline, insert prefix on next line
-		std::stringstream ss;
-		ss << input;
-		if (!ss.str().empty() && ss.str().back() == '\n') {
-			needPrefix = true;
-		}
-		return *this;
-	};
+    // If ended in newline, insert prefix on next line
+    std::stringstream ss;
+    ss << input;
+    if (!ss.str().empty() && ss.str().back() == '\n') {
+      needPrefix = true;
+    }
+    return *this;
+  };
 
-	template<typename T>
-	void prompt(const std::string& question, T& dest) {
-		std::lock_guard lock(mtx);
+  template <typename T> void prompt(const std::string &question, T &dest) {
+    std::lock_guard lock(mtx);
 
-		if (needPrefix && !prefix.empty()) {
-			os << prefix;
-		}
+    if (needPrefix && !prefix.empty()) {
+      os << prefix;
+    }
 
-		os << question;
-		os.flush(); // Ensure it is printed before input
-		
-		is >> dest;
+    os << question;
+    os.flush(); // Ensure it is printed before input
 
-		needPrefix = true;
-	}
+    is >> dest;
 
-	// For manips like std::endl
-	ThreadSafeIOStream& operator<<(std::ostream& (*manip)(std::ostream&));
+    needPrefix = true;
+  }
 
-	void setPrefix(const std::string& prefix);
+  // For manips like std::endl
+  ThreadSafeIOStream &operator<<(std::ostream &(*manip)(std::ostream &));
+
+  void setPrefix(const std::string &prefix);
 };
 
 extern thread_local ThreadSafeIOStream threadSafeCout;
