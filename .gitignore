@@ -1,3 +1,4 @@
 libftpp.a
 test
 *.out
+.vscode/settings.json
