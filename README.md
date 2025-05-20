@@ -18,7 +18,7 @@ Welcome to **libftpp** – a powerful and modern C++ toolbox without any depende
 ```bash
 libftpp/
 ├── include/        # Header files for public APIs
-├── src/            # Core library source code, each class in its own file
+├── sources/            # Core library source code, each class in its own file
 ├── tests/          # Integration tests for the library
 └── Makefile        # Build system
 ```
