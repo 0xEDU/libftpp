@@ -24,7 +24,7 @@ libftpp/
 ```
 
 ## 🛠 Requirements
-- C++23 or later
+- C++20 or later
 - POSIX-compliant system (Linux, macOS, etc.)
 - GNU Make
 
