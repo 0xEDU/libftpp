@@ -15,7 +15,8 @@ int main() {
   std::cout << "Elapsed time: " << chrono.elapsedSeconds() << " s\n";
 
   chrono.reset();
-  std::cout << "Chronometer reset. Elapsed: " << chrono.elapsedMilliseconds() << " ms\n";
+  std::cout << "Chronometer reset. Elapsed: " << chrono.elapsedMilliseconds()
+            << " ms\n";
 
   return 0;
 }

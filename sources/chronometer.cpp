@@ -29,6 +29,4 @@ double Chronometer::elapsedSeconds() const {
   return elapsedMilliseconds() / 1000.0;
 }
 
-bool Chronometer::isRunning() const {
-  return running;
-}
+bool Chronometer::isRunning() const { return running; }
