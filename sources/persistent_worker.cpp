@@ -23,6 +23,7 @@ PersistentWorker::PersistentWorker() {
   });
   worker.start();
 };
+
 PersistentWorker::~PersistentWorker() {
   {
     std::lock_guard<std::mutex> lock(persistentWorkerMtx);
