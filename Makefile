@@ -45,7 +45,7 @@ TEST_SRCS =	main_client.cpp \
 
 TEST_NAMES = $(patsubst %.cpp,%, $(TEST_SRCS))
 
-CXFLAGS = -Wall -Wextra -Werror --std=c++20
+CXFLAGS = -Wall -Wextra -Werror --std=c++20 -ggdb
 
 OBJS = $(SRCS:%.cpp=$(PATH_OBJS)%.o)
 TEST_OBJS = $(TEST_SRCS:%.cpp=$(PATH_OBJS)%.o)
@@ -84,4 +84,8 @@ fclean: clean
 	@rm -rf $(NAME) $(PATH_TESTS_OUT) $(PATH_OBJS)
 	@echo "[\033[31mDELETED\033[0m] $(NAME) $(PATH_TESTS_OUT) $(PATH_OBJS)"
 
-.PHONY: all clean fclean re test
+re: fclean all
+
+retests: fclean tests
+
+.PHONY: all clean fclean re tests retests
