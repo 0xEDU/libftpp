@@ -12,8 +12,9 @@ public:
   using Type = int;
 
   Message() = default;
-  Message(const Message &);
-  auto operator=(const Message &) -> Message &;
+  Message(const Message &rhs);
+  Message(Message &&rhs) = delete;
+  auto operator=(const Message &rhs) -> Message &;
   ~Message() = default;
 
   Message(Type type);

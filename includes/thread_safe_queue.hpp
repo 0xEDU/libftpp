@@ -11,8 +11,9 @@ template <typename TType> class ThreadSafeQueue {
 
 public:
   ThreadSafeQueue() = default;
-  ThreadSafeQueue(const ThreadSafeQueue &) = delete;
-  ThreadSafeQueue &operator=(const ThreadSafeQueue &) = delete;
+  ThreadSafeQueue(const ThreadSafeQueue &rhs) = delete;
+  ThreadSafeQueue(ThreadSafeQueue &&rhs) = delete;
+  ThreadSafeQueue &operator=(const ThreadSafeQueue &rhs) = delete;
   ~ThreadSafeQueue() = default;
 
   void push_back(const TType &newElement) {

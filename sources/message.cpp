@@ -10,7 +10,7 @@ auto Message::operator=(const Message &rhs) -> Message & {
   return *this;
 }
 
-Message::Message(int type) : m_type(type) {}
+Message::Message(Type type) : m_type(type) {}
 
 auto Message::type() -> int { return m_type; }
 

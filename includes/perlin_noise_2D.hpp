@@ -14,6 +14,7 @@ class PerlinNoise2D {
 public:
   PerlinNoise2D() = default;
   PerlinNoise2D(const PerlinNoise2D &rhs);
+  PerlinNoise2D(PerlinNoise2D &&rhs) = delete;
   auto operator=(const PerlinNoise2D &rhs) -> PerlinNoise2D &;
   ~PerlinNoise2D() = default;
 

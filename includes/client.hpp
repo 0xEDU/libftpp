@@ -22,10 +22,9 @@ class Client {
 
 public:
   Client() = default;
-  Client(const Client &) = delete;
-  auto operator=(const Client &) -> Client & = delete;
-  Client(Client &&) = delete;
-  auto operator=(Client &&) -> Client & = delete;
+  Client(const Client &rhs) = delete;
+  auto operator=(const Client &rhs) -> Client & = delete;
+  Client(Client &&rhs) = delete;
   ~Client() = default;
 
   void connect(const std::string &address, const size_t port);

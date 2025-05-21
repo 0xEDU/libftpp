@@ -14,6 +14,7 @@ class Chronometer {
 public:
   Chronometer() = default;
   Chronometer(const Chronometer &rhs) = delete;
+  Chronometer(Chronometer &&rhs) = delete;
   auto operator=(const Chronometer &rhs) -> Chronometer & = delete;
   ~Chronometer() = default;
 

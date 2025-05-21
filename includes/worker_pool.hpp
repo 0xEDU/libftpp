@@ -14,8 +14,9 @@ class WorkerPool {
 
 public:
   WorkerPool();
-  WorkerPool(const WorkerPool &);
-  auto operator=(const WorkerPool &) -> WorkerPool &;
+  WorkerPool(const WorkerPool &rhs);
+  WorkerPool(WorkerPool &&rhs) = delete;
+  auto operator=(const WorkerPool &rhs) -> WorkerPool &;
   ~WorkerPool();
 
   WorkerPool(int numWorkers);

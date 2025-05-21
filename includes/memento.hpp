@@ -7,7 +7,7 @@ class Memento {
 protected:
   Memento();
   Memento(const Memento &);
-  auto operator=(const Memento &) -> Memento &;
+  Memento &operator=(const Memento &);
   ~Memento();
 
 public:
@@ -19,22 +19,23 @@ public:
 
   public:
     Snapshot();
-    Snapshot(const Snapshot &);
-    auto operator=(const Snapshot &) -> Snapshot &;
+    Snapshot(const Snapshot &rhs);
+    Snapshot(Snapshot &&rhs) = delete;
+    Snapshot &operator=(const Snapshot &rhs);
     ~Snapshot();
 
-    template <typename T> auto operator<<(const T &object) -> Snapshot & {
+    template <typename T> Snapshot &operator<<(const T &object) {
       dataBuffer << object;
       return *this;
     };
 
-    template <typename T> auto operator>>(T &object) -> Snapshot & {
+    template <typename T> Snapshot &operator>>(T &object) {
       dataBuffer >> object;
       return *this;
     };
   };
 
-  auto save() -> Snapshot;
+  Snapshot save();
   void load(const Snapshot &state);
 
   virtual void _saveToSnapshot(Snapshot &snapshotToFill) const = 0;

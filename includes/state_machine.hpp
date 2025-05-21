@@ -32,8 +32,9 @@ private:
 
 public:
   StateMachine() = default;
-  StateMachine(const StateMachine &) = delete;
-  auto operator=(const StateMachine &) -> StateMachine & = delete;
+  StateMachine(const StateMachine &rhs) = delete;
+  StateMachine(StateMachine &&rhs) = delete;
+  auto operator=(const StateMachine &rhs) -> StateMachine & = delete;
   ~StateMachine() = default;
 
   void addState(const TState &state) {

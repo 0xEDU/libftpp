@@ -11,8 +11,9 @@ class DataBuffer {
 
 public:
   DataBuffer();
-  DataBuffer(const DataBuffer &);
-  DataBuffer &operator=(const DataBuffer &);
+  DataBuffer(const DataBuffer &rhs);
+  DataBuffer(DataBuffer &&rhs) = delete;
+  DataBuffer &operator=(const DataBuffer &rhs);
   ~DataBuffer();
 
   template <typename T> auto operator<<(const T &object) -> DataBuffer & {

@@ -11,8 +11,9 @@ template <typename TType> class Pool {
 
 public:
   Pool() = default;
-  Pool(const Pool &) = delete;
-  Pool &operator=(const Pool &) = delete;
+  Pool(const Pool &rhs) = delete;
+  Pool(Pool &&rhs) = delete;
+  Pool &operator=(const Pool &rhs) = delete;
   ~Pool() = default;
 
   void resize(const size_t &numberOfObjectStored) {

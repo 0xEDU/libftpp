@@ -10,8 +10,9 @@ template <typename TType> class Singleton {
 public:
   // Delete copy constructor and assignment operator
   Singleton() = default;
-  Singleton(const Singleton &) = delete;
-  auto operator=(const Singleton &) -> Singleton & = delete;
+  Singleton(const Singleton &rhs) = delete;
+  Singleton(Singleton &&rhs) = delete;
+  auto operator=(const Singleton &rhs) -> Singleton & = delete;
   ~Singleton() = default;
 
   static auto instance() -> TType * {

@@ -10,6 +10,7 @@ template <typename TType> struct IVector3 {
 
   IVector3() = default;
   IVector3(const IVector3 &rhs) { *this = rhs; }
+  IVector3(IVector3 &&rhs) = delete;
   auto operator=(const IVector3 &rhs) -> IVector3 & {
     x = rhs.x;
     y = rhs.y;

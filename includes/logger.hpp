@@ -18,6 +18,7 @@ class Logger {
 public:
   Logger(LogLevel level = LogLevel::INFO);
   Logger(const Logger &rhs) = delete;
+  Logger(Logger &&rhs) = delete;
   auto operator=(const Logger &rhs) -> Logger & = delete;
   ~Logger() = default;
 

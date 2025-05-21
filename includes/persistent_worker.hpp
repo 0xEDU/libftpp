@@ -13,8 +13,9 @@ class PersistentWorker {
 
 public:
   PersistentWorker();
-  PersistentWorker(const PersistentWorker &) = delete;
-  auto operator=(const PersistentWorker &) -> PersistentWorker = delete;
+  PersistentWorker(const PersistentWorker &rhs) = delete;
+  PersistentWorker(PersistentWorker &&rhs) = delete;
+  auto operator=(const PersistentWorker &rhs) -> PersistentWorker = delete;
   ~PersistentWorker();
 
   void addTask(const std::string &name,
