@@ -13,7 +13,7 @@ int main() {
                    << std::endl;
 
     // Send back a message of type 3 with double the value
-    Message replyMsg;
+    Message replyMsg(3);
     replyMsg << (value * 2);
     server.sendTo(replyMsg, clientID);
   });
