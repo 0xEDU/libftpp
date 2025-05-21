@@ -14,7 +14,7 @@
 #include <unistd.h>
 
 class Server {
-  int serverSocket;
+  int serverSocket = 0;
   std::map<Message::Type,
            std::function<void(long long &clientID, const Message &msg)>>
       actions;
@@ -28,6 +28,8 @@ class Server {
 public:
   Server() = default;
   Server(const Server &rhs) = delete;
+  Server(Server &&rhs) = delete;
+  Server &operator=(Server &&rhs) = delete;
   auto operator=(const Server &rhs) -> Server & = delete;
   ~Server() = default;
 
