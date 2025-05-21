@@ -12,6 +12,7 @@ public:
   Singleton() = default;
   Singleton(const Singleton &rhs) = delete;
   Singleton(Singleton &&rhs) = delete;
+  auto operator=(Singleton &&rhs) -> Singleton & = delete;
   auto operator=(const Singleton &rhs) -> Singleton & = delete;
   ~Singleton() = default;
 

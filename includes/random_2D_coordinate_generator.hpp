@@ -12,6 +12,8 @@ public:
   Random2DCoordinateGenerator(Random2DCoordinateGenerator &&rhs) = delete;
   auto operator=(const Random2DCoordinateGenerator &rhs)
       -> Random2DCoordinateGenerator &;
+  auto operator=(Random2DCoordinateGenerator &&rhs)
+      -> Random2DCoordinateGenerator & = delete;
   ~Random2DCoordinateGenerator() = default;
 
   auto seed() -> long long;

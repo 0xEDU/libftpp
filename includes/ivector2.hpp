@@ -15,6 +15,8 @@ template <typename TType> struct IVector2 {
     y = rhs.y;
     return *this;
   }
+
+  auto operator=(IVector2 &&rhs) -> IVector2 & = delete;
   ~IVector2() {}
 
   IVector2(TType x, TType y) : x(x), y(y) {}

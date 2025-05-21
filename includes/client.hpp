@@ -24,6 +24,7 @@ public:
   Client() = default;
   Client(const Client &rhs) = delete;
   auto operator=(const Client &rhs) -> Client & = delete;
+  auto operator=(Client &&rhs) -> Client & = delete;
   Client(Client &&rhs) = delete;
   ~Client() = default;
 

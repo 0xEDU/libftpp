@@ -16,6 +16,7 @@ public:
   PerlinNoise2D(const PerlinNoise2D &rhs);
   PerlinNoise2D(PerlinNoise2D &&rhs) = delete;
   auto operator=(const PerlinNoise2D &rhs) -> PerlinNoise2D &;
+  auto operator=(PerlinNoise2D &&rhs) -> PerlinNoise2D & = delete;
   ~PerlinNoise2D() = default;
 
   auto sample(float x, float y) -> float;

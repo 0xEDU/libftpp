@@ -14,6 +14,7 @@ public:
   Observer() = default;
   Observer(const Observer &rhs) = delete;
   Observer(Observer &&rhs) = delete;
+  auto operator=(Observer &&rhs) -> Observer & = delete;
   auto operator=(const Observer &rhs) -> Observer & = delete;
   ~Observer() = default;
 

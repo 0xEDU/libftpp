@@ -14,6 +14,7 @@ public:
   DataBuffer(const DataBuffer &rhs);
   DataBuffer(DataBuffer &&rhs) = delete;
   DataBuffer &operator=(const DataBuffer &rhs);
+  auto operator=(DataBuffer &&rhs) -> DataBuffer & = delete;
   ~DataBuffer();
 
   template <typename T> auto operator<<(const T &object) -> DataBuffer & {

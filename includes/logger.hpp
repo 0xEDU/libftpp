@@ -20,6 +20,7 @@ public:
   Logger(const Logger &rhs) = delete;
   Logger(Logger &&rhs) = delete;
   auto operator=(const Logger &rhs) -> Logger & = delete;
+  auto operator=(Logger &&rhs) -> Logger & = delete;
   ~Logger() = default;
 
   void setLevel(LogLevel level);

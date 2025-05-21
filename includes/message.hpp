@@ -15,6 +15,7 @@ public:
   Message(const Message &rhs);
   Message(Message &&rhs) = delete;
   auto operator=(const Message &rhs) -> Message &;
+  auto operator=(Message &&rhs) -> Message & = delete;
   ~Message() = default;
 
   Message(Type type);

@@ -35,6 +35,7 @@ public:
   StateMachine(const StateMachine &rhs) = delete;
   StateMachine(StateMachine &&rhs) = delete;
   auto operator=(const StateMachine &rhs) -> StateMachine & = delete;
+  auto operator=(StateMachine &&rhs) -> StateMachine & = delete;
   ~StateMachine() = default;
 
   void addState(const TState &state) {

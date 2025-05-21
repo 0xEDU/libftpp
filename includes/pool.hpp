@@ -14,6 +14,7 @@ public:
   Pool(const Pool &rhs) = delete;
   Pool(Pool &&rhs) = delete;
   Pool &operator=(const Pool &rhs) = delete;
+  auto operator=(Pool &&rhs) -> Pool & = delete;
   ~Pool() = default;
 
   void resize(const size_t &numberOfObjectStored) {

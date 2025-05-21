@@ -17,6 +17,7 @@ public:
   ThreadSafeIOStream(const ThreadSafeIOStream &rhs);
   ThreadSafeIOStream(ThreadSafeIOStream &&rhs) = delete;
   auto operator=(const ThreadSafeIOStream &rhs) -> ThreadSafeIOStream &;
+  auto operator=(ThreadSafeIOStream &&rhs) -> ThreadSafeIOStream & = delete;
   ~ThreadSafeIOStream();
 
   template <typename T>

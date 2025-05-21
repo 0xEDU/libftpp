@@ -17,6 +17,7 @@ template <typename TType> struct IVector3 {
     z = rhs.z;
     return *this;
   }
+  auto operator=(IVector3 &&rhs) -> IVector3 & = delete;
   ~IVector3() = default;
 
   IVector3(TType x, TType y, TType z) : x(x), y(y), z(z) {}

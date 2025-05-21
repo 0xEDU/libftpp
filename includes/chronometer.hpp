@@ -16,6 +16,7 @@ public:
   Chronometer(const Chronometer &rhs) = delete;
   Chronometer(Chronometer &&rhs) = delete;
   auto operator=(const Chronometer &rhs) -> Chronometer & = delete;
+  auto operator=(Chronometer &&rhs) -> Chronometer & = delete;
   ~Chronometer() = default;
 
   void start();

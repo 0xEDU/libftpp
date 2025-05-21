@@ -14,6 +14,7 @@ public:
   ThreadSafeQueue(const ThreadSafeQueue &rhs) = delete;
   ThreadSafeQueue(ThreadSafeQueue &&rhs) = delete;
   ThreadSafeQueue &operator=(const ThreadSafeQueue &rhs) = delete;
+  auto operator=(ThreadSafeQueue &&rhs) -> ThreadSafeQueue & = delete;
   ~ThreadSafeQueue() = default;
 
   void push_back(const TType &newElement) {
