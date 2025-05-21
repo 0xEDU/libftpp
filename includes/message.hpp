@@ -13,20 +13,20 @@ public:
 
   Message() = default;
   Message(const Message &);
-  Message &operator=(const Message &);
+  auto operator=(const Message &) -> Message &;
   ~Message() = default;
 
   Message(Type type);
-  int type();
-  int type() const;
+  auto type() -> int;
+  auto type() const -> int;
 
   template <typename T>
-  friend const Message &operator<<(const Message &, const T &object);
+  friend auto operator<<(const Message &, const T &) -> const Message &;
 
   template <typename T>
-  friend const Message &operator>>(const Message &, T &object);
+  friend auto operator>>(const Message &, T &) -> const Message &;
 
-  std::vector<uint8_t> serialize() const {
+  auto serialize() const -> std::vector<uint8_t> {
     // Squash type and data in a single buffer
     std::vector<uint8_t> buffer;
 
@@ -52,12 +52,13 @@ public:
 };
 
 template <typename T>
-const Message &operator<<(const Message &msg, const T &object) {
+auto operator<<(const Message &msg, const T &object) -> const Message & {
   msg.m_dataBuffer << object;
   return msg;
 }
 
-template <typename T> const Message &operator>>(const Message &msg, T &object) {
+template <typename T>
+auto operator>>(const Message &msg, T &object) -> const Message & {
   msg.m_dataBuffer >> object;
   return msg;
 }
