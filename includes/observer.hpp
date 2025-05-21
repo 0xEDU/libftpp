@@ -13,7 +13,7 @@ private:
 public:
   Observer() = default;
   Observer(const Observer &) = delete;
-  Observer &operator=(const Observer &) = delete;
+  auto operator=(const Observer &) -> Observer & = delete;
   ~Observer() = default;
 
   void subscribe(const TEvent &event, const std::function<void()> &lambda) {
