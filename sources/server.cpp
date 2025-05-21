@@ -163,11 +163,11 @@ void Server::update() {
     acceptClient();
   }
 
-  for (auto it = clientSockets.begin(); it != clientSockets.end(); it++) {
-    auto pollIt = std::find(pollFDs.begin(), pollFDs.end(), it->second);
+  for (auto &clientSocket : clientSockets) {
+    auto pollIt = std::find(pollFDs.begin(), pollFDs.end(), clientSocket.second);
     if ((pollIt->revents & POLLIN) == POLLIN) {
-      long long clientID = it->first;
-      int socket = it->second;
+      long long clientID = clientSocket.first;
+      int socket = clientSocket.second;
 
       std::array<uint8_t, 4> sizeBuffer = {};
       ssize_t bytesReceived =

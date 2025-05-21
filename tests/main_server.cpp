@@ -1,13 +1,14 @@
-#include "server.hpp"
-#include "thread_safe_iostream.hpp"
+#include "../includes/server.hpp"
+#include "../includes/thread_safe_iostream.hpp"
 #include <string>
 
-int main() {
+auto main() -> int {
   Server server;
+  const int SERVER_PORT = 8080;
 
   // Define an action for messages of type 1 (int)
   server.defineAction(1, [&server](long long &clientID, const Message &msg) {
-    int value;
+    int value = 0;
     msg >> value;
     threadSafeCout << "Received an int " << value << " from client " << clientID
                    << std::endl;
@@ -20,21 +21,21 @@ int main() {
 
   // Define an action for messages of type 2 (size_t followed by characters)
   server.defineAction(2, [](long long &clientID, const Message &msg) {
-    size_t length;
-    std::string text;
+    size_t length = 0;
+    std::string text = 0;
     msg >> length;
     text.reserve(length);
     for (size_t i = 0; i < length; ++i) {
-      char c;
-      msg >> c;
-      text.push_back(c);
+      char chr = 0;
+      msg >> chr;
+      text.push_back(chr);
     }
     threadSafeCout << "Received a string '" << text << "' of length " << length
                    << " from client " << clientID << std::endl;
   });
 
   // Start the server on port 8080
-  server.start(8080);
+  server.start(SERVER_PORT);
 
   bool quit = false;
 
@@ -47,7 +48,7 @@ int main() {
     threadSafeCout << " - Any other input to continue updating the server"
                    << std::endl;
 
-    std::string input;
+    std::string input = 0;
     std::getline(std::cin, input);
 
     std::transform(input.begin(), input.end(), input.begin(),
