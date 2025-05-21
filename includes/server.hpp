@@ -29,7 +29,7 @@ public:
   Server() = default;
   Server(const Server &rhs) = delete;
   Server(Server &&rhs) = delete;
-  Server &operator=(Server &&rhs) = delete;
+  auto operator=(Server &&rhs) -> Server & = delete;
   auto operator=(const Server &rhs) -> Server & = delete;
   ~Server() = default;
 
