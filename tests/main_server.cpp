@@ -22,7 +22,7 @@ auto main() -> int {
   // Define an action for messages of type 2 (size_t followed by characters)
   server.defineAction(2, [](long long &clientID, const Message &msg) {
     size_t length = 0;
-    std::string text = "";
+    std::string text;
     msg >> length;
     text.reserve(length);
     for (size_t i = 0; i < length; ++i) {
@@ -48,7 +48,7 @@ auto main() -> int {
     threadSafeCout << " - Any other input to continue updating the server"
                    << '\n';
 
-    std::string input = "";
+    std::string input;
     std::getline(std::cin, input);
 
     std::transform(input.begin(), input.end(), input.begin(),
