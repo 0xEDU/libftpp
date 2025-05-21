@@ -5,6 +5,7 @@
 
 class Random2DCoordinateGenerator {
   long long _seed = 0;
+
 public:
   Random2DCoordinateGenerator();
   Random2DCoordinateGenerator(const Random2DCoordinateGenerator &rhs);

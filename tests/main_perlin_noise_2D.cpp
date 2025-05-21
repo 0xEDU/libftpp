@@ -6,7 +6,7 @@ int main() {
   PerlinNoise2D perlin;
 
   const int gridSize = 50;
-  const char* heatmapColors[] = {
+  const char *heatmapColors[] = {
       "\033[48;5;17m",  // dark blue
       "\033[48;5;18m",  // blue
       "\033[48;5;19m",  // medium blue
@@ -18,7 +18,7 @@ int main() {
       "\033[48;5;202m", // red-orange
       "\033[48;5;196m"  // red
   };
-  const char* reset = "\033[0m";
+  const char *reset = "\033[0m";
   const char fillChar = ' ';
 
   std::cout << "Sampling 2D Perlin noise over a " << gridSize << "x" << gridSize

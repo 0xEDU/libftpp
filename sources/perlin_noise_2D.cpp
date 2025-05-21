@@ -17,7 +17,8 @@ float PerlinNoise2D::lerp(float a, float b, float t) { return a + t * (b - a); }
 
 IVector2<float> PerlinNoise2D::gradient(int ix, int iy) {
   long long hash = _randomGenerator(ix, iy);
-  float angle = static_cast<float>((hash % 10000) / 10000.0 * 2.0 * M_PI); // [0, 2π)
+  float angle =
+      static_cast<float>((hash % 10000) / 10000.0 * 2.0 * M_PI); // [0, 2π)
   return IVector2<float>(std::cos(angle), std::sin(angle));
 }
 
