@@ -5,7 +5,7 @@ DataBuffer::~DataBuffer() = default;
 
 DataBuffer::DataBuffer(const DataBuffer &rhs) { *this = rhs; }
 
-DataBuffer &DataBuffer::operator=(const DataBuffer &rhs) {
+auto DataBuffer::operator=(const DataBuffer &rhs) -> DataBuffer & {
   if (this != &rhs) {
     dataBuffer = rhs.dataBuffer;
   }
@@ -13,14 +13,14 @@ DataBuffer &DataBuffer::operator=(const DataBuffer &rhs) {
 }
 
 // std::string is weird
-DataBuffer &DataBuffer::operator<<(const std::string &str) {
+auto DataBuffer::operator<<(const std::string &str) -> DataBuffer & {
   size_t length = str.size();
   *this << length;
   dataBuffer.insert(dataBuffer.end(), str.begin(), str.end());
   return *this;
 }
 
-DataBuffer &DataBuffer::operator>>(std::string &str) {
+auto DataBuffer::operator>>(std::string &str) -> DataBuffer & {
   size_t length;
   *this >> length;
 
@@ -32,11 +32,11 @@ DataBuffer &DataBuffer::operator>>(std::string &str) {
   return *this;
 }
 
-uint32_t DataBuffer::size() const {
+auto DataBuffer::size() const -> uint32_t {
   return static_cast<uint32_t>(dataBuffer.size());
 }
 
-uint8_t *DataBuffer::data() { return dataBuffer.data(); }
+auto DataBuffer::data() -> uint8_t * { return dataBuffer.data(); }
 
 void DataBuffer::load(const uint8_t *data, uint32_t size) {
   dataBuffer.assign(data, data + size);

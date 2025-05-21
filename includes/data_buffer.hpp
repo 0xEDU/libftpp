@@ -15,13 +15,13 @@ public:
   DataBuffer &operator=(const DataBuffer &);
   ~DataBuffer();
 
-  template <typename T> DataBuffer &operator<<(const T &object) {
+  template <typename T> auto operator<<(const T &object) -> DataBuffer & {
     const uint8_t *data = reinterpret_cast<const uint8_t *>(&object);
     dataBuffer.insert(dataBuffer.end(), data, data + sizeof(T));
     return *this;
   }
 
-  template <typename T> DataBuffer &operator>>(T &object) {
+  template <typename T> auto operator>>(T &object) -> DataBuffer & {
     if (dataBuffer.size() < sizeof(T)) {
       throw std::runtime_error("Not enough data to deserialize");
     }
@@ -30,11 +30,11 @@ public:
     return *this;
   };
 
-  DataBuffer &operator<<(const std::string &str);
-  DataBuffer &operator>>(std::string &str);
+  auto operator<<(const std::string &str) -> DataBuffer &;
+  auto operator>>(std::string &str) -> DataBuffer &;
 
-  uint32_t size() const;
-  uint8_t *data();
+  auto size() const -> uint32_t;
+  auto data() -> uint8_t *;
   void load(const uint8_t *data, uint32_t size);
 };
 
