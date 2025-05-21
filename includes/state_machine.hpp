@@ -15,15 +15,15 @@ private:
   std::map<TState, std::map<TState, std::function<void()>>> transitions;
 
   void executeAction(const TState &state) {
-    auto it = actions.find(state);
-    if (it != actions.end()) {
-      it->second();
+    auto actionIt = actions.find(state);
+    if (actionIt != actions.end()) {
+      actionIt->second();
     }
   }
 
   void executeTransition(const TState &state) {
-    auto it = transitions.find(state);
-    if (it != transitions.end()) {
+    auto transitionIt = transitions.find(state);
+    if (transitionIt != transitions.end()) {
       for (const auto &pair : it->second) {
         pair.second();
       }
@@ -61,8 +61,8 @@ public:
 
   void transitionTo(const TState &state) {
     // Check if transition is valid
-    auto it = transitions.find(*currentState);
-    if (it == transitions.end() || it->second.find(state) == it->second.end()) {
+    auto transitionIt = transitions.find(*currentState);
+    if (transitionIt == transitions.end() || it->second.find(state) == it->second.end()) {
       throw std::invalid_argument("Invalid transition");
     }
     if (*currentState == state)

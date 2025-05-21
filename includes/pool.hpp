@@ -35,17 +35,17 @@ public:
   };
 
   template <typename... TArgs> Pool::Object acquire(TArgs &&...p_args) {
-    auto it = std::find_if(objectRawPool.begin(), objectRawPool.end(),
+    auto objectIt = std::find_if(objectRawPool.begin(), objectRawPool.end(),
                            [](const std::shared_ptr<TType> &p_object) {
                              return p_object.use_count() < 2;
                            });
-    if (it != objectRawPool.end()) {
-      *(*it) = TType(std::forward<TArgs>(p_args)...);
-      return Object(*it);
+    if (objectIt != objectRawPool.end()) {
+      *(*objectIt) = TType(std::forward<TArgs>(p_args)...);
+      return Object(*objectIt);
     } else {
-      *it = std::make_shared<TType>(std::forward<TArgs>(p_args)...);
-      objectRawPool.push_back(*it);
-      return Object(*it);
+      *objectIt = std::make_shared<TType>(std::forward<TArgs>(p_args)...);
+      objectRawPool.push_back(*objectIt);
+      return Object(*objectIt);
     }
   }
 };
