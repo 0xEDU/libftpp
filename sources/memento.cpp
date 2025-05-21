@@ -4,10 +4,10 @@ using Snapshot = Memento::Snapshot;
 
 Memento::Memento() = default;
 Memento::Memento(const Memento &) = default;
-Memento &Memento::operator=(const Memento &) = default;
+auto Memento::operator=(const Memento &) -> Memento & = default;
 Memento::~Memento() = default;
 
-Memento::Snapshot Memento::save() {
+auto Memento::save() -> Snapshot {
   Snapshot snapshot;
   _saveToSnapshot(snapshot);
   return snapshot;
@@ -20,7 +20,7 @@ void Memento::load(const Snapshot &state) {
 
 Snapshot::Snapshot() = default;
 Snapshot::Snapshot(const Snapshot &rhs) { *this = rhs; };
-Snapshot &Snapshot::operator=(const Snapshot &rhs) {
+auto Snapshot::operator=(const Snapshot &rhs) -> Snapshot & {
   if (this != &rhs) {
     dataBuffer = rhs.dataBuffer;
   }
