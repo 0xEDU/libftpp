@@ -11,10 +11,10 @@ public:
   // Delete copy constructor and assignment operator
   Singleton() = default;
   Singleton(const Singleton &) = delete;
-  Singleton &operator=(const Singleton &) = delete;
+  auto operator=(const Singleton &) -> Singleton & = delete;
   ~Singleton() = default;
 
-  static TType *instance() {
+  static auto instance() -> TType * {
     if (instancePtr == nullptr) {
       throw std::runtime_error("Instance not yet created");
     }
