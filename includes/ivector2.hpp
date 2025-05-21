@@ -18,39 +18,39 @@ template <typename TType> struct IVector2 {
 
   IVector2(TType x, TType y) : x(x), y(y) {}
 
-  IVector2 operator+(const IVector2 &rhs) const {
+  auto operator+(const IVector2 &rhs) const -> IVector2 {
     return IVector2(x + rhs.x, y + rhs.y);
   }
 
-  IVector2 operator-(const IVector2 &rhs) const {
+  auto operator-(const IVector2 &rhs) const -> IVector2 {
     return IVector2(x - rhs.x, y - rhs.y);
   }
 
-  IVector2 operator*(const IVector2 &rhs) const {
+  auto operator*(const IVector2 &rhs) const -> IVector2 {
     return IVector2(x * rhs.x, y * rhs.y);
   }
 
-  IVector2 operator/(const IVector2 &rhs) const {
+  auto operator/(const IVector2 &rhs) const -> IVector2 {
     return IVector2(x / rhs.x, y / rhs.y);
   }
 
-  bool operator==(const IVector2 &rhs) const {
+  auto operator==(const IVector2 &rhs) const -> bool {
     return (x == rhs.x && y == rhs.y);
   }
 
-  bool operator!=(const IVector2 &rhs) const {
+  auto operator!=(const IVector2 &rhs) const -> bool {
     return (x != rhs.x || y != rhs.y);
   }
 
-  float length() const { return sqrt(x * x + y * y); }
+  auto length() const -> float { return sqrt(x * x + y * y); }
 
-  float dot(const IVector2 &rhs) { return (x * rhs.x + y * rhs.y); }
+  auto dot(const IVector2 &rhs) -> float { return (x * rhs.x + y * rhs.y); }
 
-  IVector2 cross(const IVector2 &rhs) const {
+  auto cross(const IVector2 &rhs) const -> IVector2 {
     return IVector2(x * rhs.y - y * rhs.x, y * rhs.x - x * rhs.y);
   }
 
-  IVector2<float> normalize();
+  auto normalize() -> IVector2<float>;
 };
 
 #endif // !IVECTOR2_HPP

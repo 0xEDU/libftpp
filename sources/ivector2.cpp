@@ -1,6 +1,6 @@
 #include "../includes/ivector2.hpp"
 
-template <> IVector2<float> IVector2<float>::normalize() {
+template <> auto IVector2<float>::normalize() -> IVector2<float> {
   float len = length();
   if (len == 0) {
     return IVector2<float>(0, 0);
