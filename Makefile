@@ -19,7 +19,8 @@ SRCS =	client.cpp \
 		ivector2.cpp \
 		ivector3.cpp \
 		random_2D_coordinate_generator.cpp \
-		perlin_noise_2D.cpp
+		perlin_noise_2D.cpp \
+		chronometer.cpp
 
 TEST_SRCS =	main_client.cpp \
 			main_data_buffer.cpp \
@@ -37,7 +38,8 @@ TEST_SRCS =	main_client.cpp \
 			main_ivector2.cpp \
 			main_ivector3.cpp \
 			main_random_2D_coordinate_generator.cpp \
-			main_perlin_noise_2D.cpp
+			main_perlin_noise_2D.cpp \
+			main_chronometer.cpp
 
 TEST_NAMES = $(patsubst %.cpp,%, $(TEST_SRCS))
 
