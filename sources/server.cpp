@@ -164,7 +164,8 @@ void Server::update() {
   }
 
   for (auto &clientSocket : clientSockets) {
-    auto pollIt = std::find(pollFDs.begin(), pollFDs.end(), clientSocket.second);
+    auto pollIt =
+        std::find(pollFDs.begin(), pollFDs.end(), clientSocket.second);
     if ((pollIt->revents & POLLIN) == POLLIN) {
       long long clientID = clientSocket.first;
       int socket = clientSocket.second;
