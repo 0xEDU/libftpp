@@ -1,4 +1,4 @@
-#include "random_2D_coordinate_generator.hpp"
+#include "../includes/random_2D_coordinate_generator.hpp"
 #include <iostream>
 #include <utility>
 #include <vector>
