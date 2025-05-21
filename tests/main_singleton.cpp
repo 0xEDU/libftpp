@@ -4,11 +4,10 @@
 class MyClass {
 public:
   MyClass(int value) {
-    std::cout << "MyClass constructor, with value [" << value << "]"
-              << std::endl;
+    std::cout << "MyClass constructor, with value [" << value << "]" << '\n';
   }
 
-  void printMessage() { std::cout << "Hello from MyClass" << std::endl; }
+  void printMessage() { std::cout << "Hello from MyClass" << '\n'; }
 };
 
 int main() {
@@ -17,7 +16,7 @@ int main() {
     Singleton<MyClass>::instance();
   } catch (const std::exception &e) {
     std::cout << "Exception: " << e.what()
-              << std::endl; // Output: "Exception: Instance not yet created"
+              << '\n'; // Output: "Exception: Instance not yet created"
   }
 
   Singleton<MyClass>::instantiate(42); // Setting up the instance
@@ -30,7 +29,7 @@ int main() {
     Singleton<MyClass>::instantiate(100);
   } catch (const std::exception &e) {
     std::cout << "Exception: " << e.what()
-              << std::endl; // Output: "Exception: Instance already created"
+              << '\n'; // Output: "Exception: Instance already created"
   }
 
   return 0;

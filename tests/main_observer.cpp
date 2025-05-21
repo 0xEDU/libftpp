@@ -8,24 +8,24 @@ int main() {
 
   // Subscribe to EVENT_ONE
   observer.subscribe(EventType::EVENT_ONE,
-                     []() { std::cout << "Event One triggered" << std::endl; });
+                     []() { std::cout << "Event One triggered" << '\n'; });
 
   // Subscribe first lambda to EVENT_TWO
   observer.subscribe(EventType::EVENT_TWO, []() {
-    std::cout << "Event Two triggered (First subscriber)" << std::endl;
+    std::cout << "Event Two triggered (First subscriber)" << '\n';
   });
 
   // Subscribe second lambda to EVENT_TWO
   observer.subscribe(EventType::EVENT_TWO, []() {
-    std::cout << "Event Two triggered (Second subscriber)" << std::endl;
+    std::cout << "Event Two triggered (Second subscriber)" << '\n';
   });
 
   // Triggering EVENT_ONE
-  std::cout << "Notify EVENT_ONE" << std::endl;
+  std::cout << "Notify EVENT_ONE" << '\n';
   observer.notify(EventType::EVENT_ONE); // Output: "Event One triggered"
 
   // Triggering EVENT_TWO
-  std::cout << "Notify EVENT_TWO" << std::endl;
+  std::cout << "Notify EVENT_TWO" << '\n';
   observer.notify(EventType::EVENT_TWO);
   // Output:
   // "Event Two triggered (First subscriber)"
@@ -33,7 +33,7 @@ int main() {
   // The order may differ
 
   // Triggering EVENT_THREE (No subscriber)
-  std::cout << "Notify EVENT_THREE" << std::endl;
+  std::cout << "Notify EVENT_THREE" << '\n';
   observer.notify(
       EventType::EVENT_THREE); // Output: None, as there are no subscribers
 

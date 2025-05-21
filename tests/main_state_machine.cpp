@@ -11,22 +11,20 @@ int main() {
   sm.addState(State::Paused);
   sm.addState(State::Stopped);
 
-  sm.addAction(State::Idle,
-               [] { std::cout << "System is idle." << std::endl; });
+  sm.addAction(State::Idle, [] { std::cout << "System is idle." << '\n'; });
   sm.addAction(State::Running,
-               [] { std::cout << "System is running." << std::endl; });
-  sm.addAction(State::Paused,
-               [] { std::cout << "System is paused." << std::endl; });
+               [] { std::cout << "System is running." << '\n'; });
+  sm.addAction(State::Paused, [] { std::cout << "System is paused." << '\n'; });
   // No addAction for State::Stopped, it will use the default empty lambda
 
   sm.addTransition(State::Idle, State::Running, [] {
-    std::cout << "Transitioning from Idle to Running." << std::endl;
+    std::cout << "Transitioning from Idle to Running." << '\n';
   });
   sm.addTransition(State::Running, State::Paused, [] {
-    std::cout << "Transitioning from Running to Paused." << std::endl;
+    std::cout << "Transitioning from Running to Paused." << '\n';
   });
   sm.addTransition(State::Paused, State::Running, [] {
-    std::cout << "Transitioning from Paused to Running." << std::endl;
+    std::cout << "Transitioning from Paused to Running." << '\n';
   });
   // No addTransition for State::Stopped
 
@@ -44,7 +42,7 @@ int main() {
                                      // and throw an exception
   } catch (const std::invalid_argument &e) {
     std::cout << "Exception caught: " << e.what()
-              << std::endl; // Handle state not found
+              << '\n'; // Handle state not found
   }
 
   try {
@@ -52,7 +50,7 @@ int main() {
                                      // lambda is executed
   } catch (const std::invalid_argument &e) {
     std::cout << "Exception caught: " << e.what()
-              << std::endl; // Handle state not found
+              << '\n'; // Handle state not found
   }
 
   try {
@@ -60,7 +58,7 @@ int main() {
                                      // and throw an exception
   } catch (const std::invalid_argument &e) {
     std::cout << "Exception caught: " << e.what()
-              << std::endl; // Handle state not found
+              << '\n'; // Handle state not found
   }
 
   return 0;

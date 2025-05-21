@@ -5,13 +5,13 @@
 
 void myFunction1() {
   for (int i = 0; i < 5; ++i) {
-    threadSafeCout << "Hello from Function1, iteration " << i << std::endl;
+    threadSafeCout << "Hello from Function1, iteration " << i << '\n';
   }
 }
 
 void myFunction2() {
   for (int i = 0; i < 5; ++i) {
-    threadSafeCout << "Hello from Function2, iteration " << i << std::endl;
+    threadSafeCout << "Hello from Function2, iteration " << i << '\n';
   }
 }
 

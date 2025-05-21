@@ -39,11 +39,11 @@ int main() {
   try {
     myBuffer >> deserializedObj1 >> deserializedObj2;
     std::cout << "Deserialized obj1: x = " << deserializedObj1.x
-              << ", y = " << deserializedObj1.y << std::endl;
+              << ", y = " << deserializedObj1.y << '\n';
     std::cout << "Deserialized obj2: x = " << deserializedObj2.x
-              << ", y = " << deserializedObj2.y << std::endl;
+              << ", y = " << deserializedObj2.y << '\n';
   } catch (const std::exception &e) {
-    std::cout << "Caught exception: " << e.what() << std::endl;
+    std::cout << "Caught exception: " << e.what() << '\n';
   }
 
   // This should throw an exception because there are no more objects to
@@ -51,10 +51,10 @@ int main() {
   try {
     myBuffer >> deserializedObj3;
     std::cout << "Deserialized obj3: x = " << deserializedObj3.x
-              << ", y = " << deserializedObj3.y << std::endl;
+              << ", y = " << deserializedObj3.y << '\n';
   } catch (const std::exception &e) {
     std::cout << "Caught exception: " << e.what()
-              << std::endl; // This line should be executed
+              << '\n'; // This line should be executed
   }
 
   return 0;

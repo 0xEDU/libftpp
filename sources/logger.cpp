@@ -7,7 +7,7 @@ void Logger::setLevel(LogLevel lvl) { level = lvl; }
 void Logger::log(LogLevel level, const std::string &message) {
   if (static_cast<int>(level) >= static_cast<int>(level)) {
     std::cout << "[" << timestamp() << "] "
-              << "[" << levelToString(level) << "] " << message << std::endl;
+              << "[" << levelToString(level) << "] " << message << '\n';
   }
 }
 

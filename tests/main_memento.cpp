@@ -31,7 +31,7 @@ int main() {
   // Output the modified object
   // Expected Output: "Current state: x = 100, y = World"
   std::cout << "Current state: x = " << myObject.x << ", y = " << myObject.y
-            << std::endl;
+            << '\n';
 
   // Restore the object to its saved state
   myObject.load(savedState);
@@ -39,7 +39,7 @@ int main() {
   // Output the restored object
   // Expected Output: "Restored state: x = 42, y = Hello"
   std::cout << "Restored state: x = " << myObject.x << ", y = " << myObject.y
-            << std::endl;
+            << '\n';
 
   return 0;
 }

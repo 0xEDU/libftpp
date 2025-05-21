@@ -8,7 +8,7 @@ int main() {
   client.defineAction(3, [](const Message &msg) {
     int doubledValue;
     msg >> doubledValue;
-    threadSafeCout << "Received a doubled value: " << doubledValue << std::endl;
+    threadSafeCout << "Received a doubled value: " << doubledValue << '\n';
   });
 
   // Connect to the server
@@ -33,11 +33,11 @@ int main() {
   while (!quit) {
     client.update();
 
-    threadSafeCout << "Client updated." << std::endl;
-    threadSafeCout << "Available operations :" << std::endl;
-    threadSafeCout << " - [Q]uit : close the program" << std::endl;
+    threadSafeCout << "Client updated." << '\n';
+    threadSafeCout << "Available operations :" << '\n';
+    threadSafeCout << " - [Q]uit : close the program" << '\n';
     threadSafeCout << " - Any other input to continue updating the client"
-                   << std::endl;
+                   << '\n';
 
     std::string input;
     std::getline(std::cin, input);

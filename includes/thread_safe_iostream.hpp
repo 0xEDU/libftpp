@@ -50,7 +50,7 @@ public:
     needPrefix = true;
   }
 
-  // For manips like std::endl
+  // For manips like '\n'
   ThreadSafeIOStream &operator<<(std::ostream &(*manip)(std::ostream &));
 
   void setPrefix(const std::string &prefix);

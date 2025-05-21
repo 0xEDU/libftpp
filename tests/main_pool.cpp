@@ -3,14 +3,13 @@
 
 class TestObject {
 public:
-  TestObject() { std::cout << "TestObject default constructor" << std::endl; }
+  TestObject() { std::cout << "TestObject default constructor" << '\n'; }
   TestObject(int value) {
-    std::cout << "TestObject constructor with value [" << value << "]"
-              << std::endl;
+    std::cout << "TestObject constructor with value [" << value << "]" << '\n';
   }
-  ~TestObject() { std::cout << "TestObject destructor" << std::endl; }
+  ~TestObject() { std::cout << "TestObject destructor" << '\n'; }
 
-  void sayHello() const { std::cout << "Hello from TestObject" << std::endl; }
+  void sayHello() const { std::cout << "Hello from TestObject" << '\n'; }
 };
 
 int main() {

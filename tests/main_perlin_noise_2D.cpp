@@ -22,8 +22,8 @@ int main() {
   const char fillChar = ' ';
 
   std::cout << "Sampling 2D Perlin noise over a " << gridSize << "x" << gridSize
-            << " grid:" << std::endl
-            << std::endl;
+            << " grid:" << '\n'
+            << '\n';
 
   for (int y = 0; y < gridSize; ++y) {
     for (int x = 0; x < gridSize; ++x) {
@@ -33,7 +33,7 @@ int main() {
 
       std::cout << heatmapColors[colorIndex] << fillChar << fillChar;
     }
-    std::cout << reset << std::endl;
+    std::cout << reset << '\n';
   }
 
   return 0;

@@ -13,37 +13,37 @@ int main() {
   // Store the random numbers generated the first time
   std::vector<long long> firstGenerated;
 
-  std::cout << "First round of generation:" << std::endl;
+  std::cout << "First round of generation:" << '\n';
   for (const auto &coord : coordinates) {
     long long x = coord.first;
     long long y = coord.second;
     long long randomNumber = randomGenerator(x, y);
     firstGenerated.push_back(randomNumber);
     std::cout << "Random number using coordinates (" << x << ", " << y
-              << "): " << randomNumber << std::endl;
+              << "): " << randomNumber << '\n';
   }
-  std::cout << std::endl;
+  std::cout << '\n';
 
-  std::cout << "Second round of generation:" << std::endl;
+  std::cout << "Second round of generation:" << '\n';
   for (size_t i = 0; i < coordinates.size(); ++i) {
     long long x = coordinates[i].first;
     long long y = coordinates[i].second;
     long long randomNumber = randomGenerator(x, y);
 
     std::cout << "Random number using coordinates (" << x << ", " << y
-              << "): " << randomNumber << std::endl;
+              << "): " << randomNumber << '\n';
 
     // Check if the number is the same as generated the first time
     if (randomNumber == firstGenerated[i]) {
       std::cout << "  => Matches the previous generated value. Consistent!"
-                << std::endl; // Expected: Should always match
+                << '\n'; // Expected: Should always match
     } else {
       std::cout
           << "  => Does not match the previous generated value. Inconsistent!"
-          << std::endl;
+          << '\n';
     }
   }
-  std::cout << std::endl;
+  std::cout << '\n';
 
   return 0;
 }

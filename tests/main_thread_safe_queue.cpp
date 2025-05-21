@@ -4,15 +4,15 @@
 
 void testPush(ThreadSafeQueue<int> &p_queue, int p_value) {
   p_queue.push_back(p_value);
-  std::cout << "Pushed value: " << p_value << std::endl;
+  std::cout << "Pushed value: " << p_value << '\n';
 }
 
 void testPop(ThreadSafeQueue<int> &p_queue) {
   try {
     int value = p_queue.pop_front();
-    std::cout << "Popped value: " << value << std::endl;
+    std::cout << "Popped value: " << value << '\n';
   } catch (const std::runtime_error &e) {
-    std::cout << e.what() << std::endl;
+    std::cout << e.what() << '\n';
   }
 }
 

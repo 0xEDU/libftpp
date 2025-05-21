@@ -22,7 +22,7 @@ ThreadSafeIOStream &
 ThreadSafeIOStream::operator<<(std::ostream &(*manip)(std::ostream &)) {
   std::lock_guard<std::mutex> lock(mtx);
   os << manip;
-  if (manip == static_cast<std::ostream &(*)(std::ostream &)>(std::endl)) {
+  if (manip == static_cast<std::ostream &(*)(std::ostream &)>('\n')) {
     needPrefix = true;
   }
   return *this;

@@ -5,11 +5,11 @@
 void printNumbers(const std::string &p_prefix) {
   threadSafeCout.setPrefix(p_prefix);
   for (int i = 1; i <= 5; ++i) {
-    threadSafeCout << "Number: " << i << std::endl;
+    threadSafeCout << "Number: " << i << '\n';
   }
   std::string answer;
   threadSafeCout.prompt("How are you? ", answer);
-  threadSafeCout << answer << std::endl;
+  threadSafeCout << answer << '\n';
 }
 
 int main() {
