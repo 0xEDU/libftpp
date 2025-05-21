@@ -31,7 +31,7 @@ auto main() -> int {
       text.push_back(chr);
     }
     threadSafeCout << "Received a string '" << text << "' of length " << length
-                   << " from client " << clientID << std::endl;
+                   << " from client " << clientID << '\n';
   });
 
   // Start the server on port 8080
@@ -42,11 +42,11 @@ auto main() -> int {
   while (!quit) {
     server.update();
 
-    threadSafeCout << "Server updated." << std::endl;
-    threadSafeCout << "Available operations :" << std::endl;
-    threadSafeCout << " - [Q]uit : close the program" << std::endl;
+    threadSafeCout << "Server updated." << '\n';
+    threadSafeCout << "Available operations :" << '\n';
+    threadSafeCout << " - [Q]uit : close the program" << '\n';
     threadSafeCout << " - Any other input to continue updating the server"
-                   << std::endl;
+                   << '\n';
 
     std::string input = "";
     std::getline(std::cin, input);
