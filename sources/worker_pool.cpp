@@ -4,7 +4,7 @@ std::mutex WorkerPool::haltMutex;
 
 WorkerPool::WorkerPool() = default;
 WorkerPool::WorkerPool(const WorkerPool &rhs) { *this = rhs; }
-WorkerPool &WorkerPool::operator=(const WorkerPool &rhs) {
+auto WorkerPool::operator=(const WorkerPool &rhs) -> WorkerPool &{
   if (this != &rhs) {
   }
   return *this;
