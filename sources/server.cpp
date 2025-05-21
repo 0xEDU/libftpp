@@ -60,8 +60,9 @@ void Server::defineAction(
 
 void Server::sendTo(const Message &msg, long long &clientID) {
   auto clientSocket = clientSockets.find(clientID);
-  if (clientSocket == clientSockets.end())
+  if (clientSocket == clientSockets.end()) {
     return;
+  }
   int socket = clientSocket->second;
   std::vector<uint8_t> payload = msg.serialize();
   uint32_t msgSize = payload.size();
@@ -123,10 +124,10 @@ void Server::acceptClient() {
   sockaddr_in clientAddr = {};
   socklen_t clientAddrLen = sizeof(clientAddr);
   int clientSocket =
-      accept(serverSocket, (struct sockaddr *)&clientAddr,
-             &clientAddrLen); // NOLINT(cppcoreguidelines-pro-type-cstyle-cast)
+      // NOLINTNEXTLINE(cppcoreguidelines-pro-type-cstyle-cast)
+      accept(serverSocket, (struct sockaddr *)&clientAddr, &clientAddrLen);
   if (clientSocket >= 0) {
-    long long clientID = clientSockets.size();
+    long long clientID = clientSockets.size(); // NOLINT
     clientSockets[clientID] = clientSocket;
     pollFDs.push_back({clientSocket, POLLIN, 0});
   } else if (errno != EAGAIN && errno != EWOULDBLOCK) {
