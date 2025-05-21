@@ -24,7 +24,7 @@ private:
   void executeTransition(const TState &state) {
     auto transitionIt = transitions.find(state);
     if (transitionIt != transitions.end()) {
-      for (const auto &pair : it->second) {
+      for (const auto &pair : transitionIt->second) {
         pair.second();
       }
     }
@@ -62,7 +62,8 @@ public:
   void transitionTo(const TState &state) {
     // Check if transition is valid
     auto transitionIt = transitions.find(*currentState);
-    if (transitionIt == transitions.end() || it->second.find(state) == it->second.end()) {
+    if (transitionIt == transitions.end() ||
+        transitionIt->second.find(state) == transitionIt->second.end()) {
       throw std::invalid_argument("Invalid transition");
     }
     if (*currentState == state)

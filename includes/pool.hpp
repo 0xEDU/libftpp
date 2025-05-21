@@ -36,9 +36,9 @@ public:
 
   template <typename... TArgs> Pool::Object acquire(TArgs &&...p_args) {
     auto objectIt = std::find_if(objectRawPool.begin(), objectRawPool.end(),
-                           [](const std::shared_ptr<TType> &p_object) {
-                             return p_object.use_count() < 2;
-                           });
+                                 [](const std::shared_ptr<TType> &p_object) {
+                                   return p_object.use_count() < 2;
+                                 });
     if (objectIt != objectRawPool.end()) {
       *(*objectIt) = TType(std::forward<TArgs>(p_args)...);
       return Object(*objectIt);

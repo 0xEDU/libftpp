@@ -19,7 +19,7 @@ public:
   void subscribe(const TEvent &event, const std::function<void()> &lambda) {
     auto event = eventsCallbacks.find(event);
     if (event != eventsCallbacks.end()) {
-      it->second.push_back(lambda);
+      event->second.push_back(lambda);
     } else {
       functionVec vec;
       vec.push_back(lambda);
@@ -30,7 +30,7 @@ public:
   void notify(const TEvent &event) {
     auto event = eventsCallbacks.find(event);
     if (event != eventsCallbacks.end()) {
-      for (const auto &callback : it->second) {
+      for (const auto &callback : event->second) {
         callback();
       }
     }
