@@ -9,8 +9,8 @@ ThreadSafeIOStream::~ThreadSafeIOStream() = default;
 ThreadSafeIOStream::ThreadSafeIOStream(const ThreadSafeIOStream &rhs) {
   *this = rhs;
 };
-ThreadSafeIOStream &
-ThreadSafeIOStream::operator=(const ThreadSafeIOStream &rhs) {
+auto ThreadSafeIOStream::operator=(const ThreadSafeIOStream &rhs)
+    -> ThreadSafeIOStream & {
   if (this != &rhs) {
     prefix = rhs.prefix;
     needPrefix = rhs.needPrefix;
@@ -18,8 +18,8 @@ ThreadSafeIOStream::operator=(const ThreadSafeIOStream &rhs) {
   return *this;
 };
 
-ThreadSafeIOStream &
-ThreadSafeIOStream::operator<<(std::ostream &(*manip)(std::ostream &)) {
+auto ThreadSafeIOStream::operator<<(std::ostream &(*manip)(std::ostream &))
+    -> ThreadSafeIOStream & {
   std::lock_guard<std::mutex> lock(mtx);
   os << manip;
   if (manip == static_cast<std::ostream &(*)(std::ostream &)>(std::endl)) {

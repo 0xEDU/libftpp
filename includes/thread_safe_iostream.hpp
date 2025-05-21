@@ -15,10 +15,11 @@ class ThreadSafeIOStream {
 public:
   ThreadSafeIOStream();
   ThreadSafeIOStream(const ThreadSafeIOStream &);
-  ThreadSafeIOStream &operator=(const ThreadSafeIOStream &);
+  auto operator=(const ThreadSafeIOStream &) -> ThreadSafeIOStream &;
   ~ThreadSafeIOStream();
 
-  template <typename T> ThreadSafeIOStream &operator<<(const T &input) {
+  template <typename T>
+  auto operator<<(const T &input) -> ThreadSafeIOStream & {
     std::lock_guard<std::mutex> lock(mtx);
     if (needPrefix && !prefix.empty()) {
       os << prefix;
@@ -50,8 +51,8 @@ public:
     needPrefix = true;
   }
 
-  // For manips like '\n'
-  ThreadSafeIOStream &operator<<(std::ostream &(*manip)(std::ostream &));
+  auto operator<<(std::ostream &(*manip)(std::ostream &))
+      -> ThreadSafeIOStream &;
 
   void setPrefix(const std::string &prefix);
 };
