@@ -11,7 +11,7 @@ auto main() -> int {
     int value = 0;
     msg >> value;
     threadSafeCout << "Received an int " << value << " from client " << clientID
-                   << std::endl;
+                   << '\n';
 
     // Send back a message of type 3 with double the value
     Message replyMsg(3);
@@ -22,7 +22,7 @@ auto main() -> int {
   // Define an action for messages of type 2 (size_t followed by characters)
   server.defineAction(2, [](long long &clientID, const Message &msg) {
     size_t length = 0;
-    std::string text = 0;
+    std::string text = "";
     msg >> length;
     text.reserve(length);
     for (size_t i = 0; i < length; ++i) {
@@ -48,11 +48,11 @@ auto main() -> int {
     threadSafeCout << " - Any other input to continue updating the server"
                    << std::endl;
 
-    std::string input = 0;
+    std::string input = "";
     std::getline(std::cin, input);
 
     std::transform(input.begin(), input.end(), input.begin(),
-                   [](unsigned char c) { return std::tolower(c); });
+                   [](unsigned char chr) { return std::tolower(chr); });
 
     if (input == "quit" || (input.length() == 1 && input[0] == 'q')) {
       quit = true;
