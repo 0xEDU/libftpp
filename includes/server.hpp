@@ -23,6 +23,7 @@ class Server {
   std::vector<pollfd> pollFDs;
 
   void acceptClient();
+  void closeClients(const std::vector<int> &clientIDs);
 
 public:
   Server() = default;

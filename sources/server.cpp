@@ -136,6 +136,21 @@ void Server::acceptClient() {
   }
 }
 
+void Server::closeClients(const std::vector<int> &clientIDs) {
+  for (auto clientID : clientIDs) {
+    auto clientSocket = clientSockets.find(clientID);
+    if (clientSocket != clientSockets.end()) {
+      close(clientSocket->second);
+      clientSockets.erase(clientSocket);
+      pollFDs.erase(std::remove_if(pollFDs.begin(), pollFDs.end(),
+                                   [clientID](const pollfd &pfd) {
+                                     return pfd.fd == clientID;
+                                   }),
+                    pollFDs.end());
+    }
+  }
+}
+
 void Server::update() {
   std::vector<int> shouldCloseClients;
 
@@ -154,7 +169,7 @@ void Server::update() {
       long long clientID = it->first;
       int socket = it->second;
 
-      std::array<uint8_t, 4> sizeBuffer;
+      std::array<uint8_t, 4> sizeBuffer = {};
       ssize_t bytesReceived =
           recv(socket, sizeBuffer.data(), sizeof(sizeBuffer), 0);
       if (bytesReceived < 0) {
@@ -183,18 +198,6 @@ void Server::update() {
         actionIt->second(clientID, msg);
       }
     }
-
-    for (auto clientID : shouldCloseClients) {
-      auto clientSocket = clientSockets.find(clientID);
-      if (clientSocket != clientSockets.end()) {
-        close(clientSocket->second);
-        clientSockets.erase(clientSocket);
-        pollFDs.erase(std::remove_if(pollFDs.begin(), pollFDs.end(),
-                                     [clientID](const pollfd &pfd) {
-                                       return pfd.fd == clientID;
-                                     }),
-                      pollFDs.end());
-      }
-    }
+    closeClients(shouldCloseClients);
   }
 }
