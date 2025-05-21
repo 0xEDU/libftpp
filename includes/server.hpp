@@ -3,6 +3,7 @@
 
 #include "../includes/message.hpp"
 
+#include <algorithm>
 #include <cstddef>
 #include <fcntl.h>
 #include <functional>
@@ -21,6 +22,8 @@ class Server {
   using pollfd = struct pollfd;
   std::vector<pollfd> pollFDs;
 
+  void acceptClient();
+
 public:
   Server() = default;
   Server(const Server &rhs) = delete;
@@ -32,7 +35,8 @@ public:
                     const std::function<void(long long &clientID,
                                              const Message &msg)> &action);
   void sendTo(const Message &msg, long long &clientID);
-  void sendToArray(const Message &message, std::vector<long long> clientIDs);
+  void sendToArray(const Message &message,
+                   const std::vector<long long> &clientIDs);
   void sendToAll(const Message &message);
   void update();
 };
