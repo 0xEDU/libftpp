@@ -6,12 +6,12 @@ Random2DCoordinateGenerator::Random2DCoordinateGenerator() {
 }
 
 Random2DCoordinateGenerator::Random2DCoordinateGenerator(
-    Random2DCoordinateGenerator &rhs) {
+    const Random2DCoordinateGenerator &rhs) {
   *this = rhs;
 }
 
-auto Random2DCoordinateGenerator::operator=(Random2DCoordinateGenerator &rhs)
-    -> Random2DCoordinateGenerator & {
+auto Random2DCoordinateGenerator::operator=(
+    const Random2DCoordinateGenerator &rhs) -> Random2DCoordinateGenerator & {
   if (this != &rhs) {
     _seed = rhs._seed;
   }

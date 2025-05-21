@@ -7,8 +7,8 @@ class Random2DCoordinateGenerator {
   long long _seed = 0;
 public:
   Random2DCoordinateGenerator();
-  Random2DCoordinateGenerator(Random2DCoordinateGenerator &rhs);
-  auto operator=(Random2DCoordinateGenerator &rhs)
+  Random2DCoordinateGenerator(const Random2DCoordinateGenerator &rhs);
+  auto operator=(const Random2DCoordinateGenerator &rhs)
       -> Random2DCoordinateGenerator &;
   ~Random2DCoordinateGenerator() = default;
 
