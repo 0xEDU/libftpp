@@ -11,8 +11,8 @@ template <typename TType> class Pool {
 
 public:
   Pool() = default;
-  Pool(const Pool &) = delete;            // Prevent copying
-  Pool &operator=(const Pool &) = delete; // Prevent assignment
+  Pool(const Pool &) = delete;
+  Pool &operator=(const Pool &) = delete;
   ~Pool() = default;
 
   void resize(const size_t &numberOfObjectStored) {
@@ -31,10 +31,10 @@ public:
     ~Object() = default;
     Object(std::shared_ptr<TType> p) : object(std::move(p)) {}
 
-    TType *operator->() { return object.get(); };
+    auto operator->() -> TType * { return object.get(); };
   };
 
-  template <typename... TArgs> Pool::Object acquire(TArgs &&...p_args) {
+  template <typename... TArgs> auto acquire(TArgs &&...p_args) -> Pool::Object {
     auto objectIt = std::find_if(objectRawPool.begin(), objectRawPool.end(),
                                  [](const std::shared_ptr<TType> &p_object) {
                                    return p_object.use_count() < 2;
