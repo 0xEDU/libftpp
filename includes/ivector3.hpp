@@ -20,40 +20,42 @@ template <typename TType> struct IVector3 {
 
   IVector3(TType x, TType y, TType z) : x(x), y(y), z(z) {}
 
-  IVector3 operator+(const IVector3 &rhs) const {
+  auto operator+(const IVector3 &rhs) const -> IVector3 {
     return IVector3(x + rhs.x, y + rhs.y, z + rhs.z);
   }
 
-  IVector3 operator-(const IVector3 &rhs) const {
+  auto operator-(const IVector3 &rhs) const -> IVector3 {
     return IVector3(x - rhs.x, y - rhs.y, z - rhs.z);
   }
 
-  IVector3 operator*(const IVector3 &rhs) const {
+  auto operator*(const IVector3 &rhs) const -> IVector3 {
     return IVector3(x * rhs.x, y * rhs.y, z * rhs.z);
   }
 
-  IVector3 operator/(const IVector3 &rhs) const {
+  auto operator/(const IVector3 &rhs) const -> IVector3 {
     return IVector3(x / rhs.x, y / rhs.y, z / rhs.z);
   }
 
-  bool operator==(const IVector3 &rhs) const {
+  auto operator==(const IVector3 &rhs) const -> bool {
     return (x == rhs.x && y == rhs.y && z == rhs.z);
   }
 
-  bool operator!=(const IVector3 &rhs) const {
+  auto operator!=(const IVector3 &rhs) const -> bool {
     return (x != rhs.x || y != rhs.y || z != rhs.z);
   }
 
-  float length() const { return sqrt(x * x + y * y + z * z); }
+  auto length() const -> float { return sqrt(x * x + y * y + z * z); }
 
-  float dot(const IVector3 &rhs) { return (x * rhs.x + y * rhs.y + z * rhs.z); }
+  auto dot(const IVector3 &rhs) -> float {
+    return (x * rhs.x + y * rhs.y + z * rhs.z);
+  }
 
-  IVector3 cross(const IVector3 &rhs) const {
+  auto cross(const IVector3 &rhs) const -> IVector3 {
     return IVector3(y * rhs.z - z * rhs.y, z * rhs.x - x * rhs.z,
                     x * rhs.y - y * rhs.x);
   }
 
-  IVector3<float> normalize();
+  auto normalize() -> IVector3<float>;
 };
 
 #endif // !IVECTOR3_HPP
