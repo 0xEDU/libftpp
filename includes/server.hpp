@@ -18,12 +18,13 @@ class Server {
            std::function<void(long long &clientID, const Message &msg)>>
       actions;
   std::map<long long, int> clientSockets; // clientID -> socket
-
-public:
   using pollfd = struct pollfd;
   std::vector<pollfd> pollFDs;
 
+public:
   Server() = default;
+  Server(const Server &rhs) = delete;
+  auto operator=(const Server &rhs) -> Server & = delete;
   ~Server() = default;
 
   void start(const size_t &p_port);
