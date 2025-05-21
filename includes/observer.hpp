@@ -17,9 +17,9 @@ public:
   ~Observer() = default;
 
   void subscribe(const TEvent &event, const std::function<void()> &lambda) {
-    auto event = eventsCallbacks.find(event);
-    if (event != eventsCallbacks.end()) {
-      event->second.push_back(lambda);
+    auto eventIt = eventsCallbacks.find(event);
+    if (eventIt != eventsCallbacks.end()) {
+      eventIt->second.push_back(lambda);
     } else {
       functionVec vec;
       vec.push_back(lambda);
@@ -28,9 +28,9 @@ public:
   }
 
   void notify(const TEvent &event) {
-    auto event = eventsCallbacks.find(event);
-    if (event != eventsCallbacks.end()) {
-      for (const auto &callback : event->second) {
+    auto eventIt = eventsCallbacks.find(event);
+    if (eventIt != eventsCallbacks.end()) {
+      for (const auto &callback : eventIt->second) {
         callback();
       }
     }
