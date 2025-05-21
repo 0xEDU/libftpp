@@ -17,7 +17,8 @@ SRCS =	client.cpp \
 		thread.cpp \
 		worker_pool.cpp \
 		ivector2.cpp \
-		ivector3.cpp
+		ivector3.cpp \
+		random_2D_coordinate_generator.cpp
 
 TEST_SRCS =	main_client.cpp \
 			main_data_buffer.cpp \
@@ -33,7 +34,8 @@ TEST_SRCS =	main_client.cpp \
 			main_thread_safe_queue.cpp \
 			main_worker_pool.cpp \
 			main_ivector2.cpp \
-			main_ivector3.cpp
+			main_ivector3.cpp \
+			main_random_2D_coordinate_generator.cpp
 
 TEST_NAMES = $(patsubst %.cpp,%, $(TEST_SRCS))
 
@@ -57,12 +59,16 @@ $(PATH_OBJS)%.o: $(PATH_TESTS)%.cpp
 	@clang++ $(CXFLAGS) -I $(PATH_INCLUDES) -c $< -o $@
 	@echo "[\033[32mSUCCESS\033[0m] Compiled $<"
 
-tests: $(NAME) $(TEST_NAMES)
+tests: $(NAME) $(addprefix $(PATH_TESTS_OUT),$(TEST_NAMES))
 
-$(TEST_NAMES): $(TEST_OBJS)
+define COMPILE_TEST_TEMPLATE
+$(PATH_TESTS_OUT)$(1): $(PATH_OBJS)$(1).o $(NAME)
 	@mkdir -p $(PATH_TESTS_OUT)
-	@clang++ $(CXFLAGS) ./objs/$@.o $(NAME) -o $(PATH_TESTS_OUT)$@
-	@echo "[\033[32mSUCCESS\033[0m] Linked $@"
+	@clang++ $(CXFLAGS) $$< $(NAME) -o $$@
+	@echo "[\033[32mSUCCESS\033[0m] Linked $(1)"
+endef
+
+$(foreach test,$(TEST_NAMES),$(eval $(call COMPILE_TEST_TEMPLATE,$(test))))
 
 clean:
 	@rm -f $(OBJS) $(TEST_OBJS)
