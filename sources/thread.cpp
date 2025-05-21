@@ -2,7 +2,7 @@
 
 Thread::Thread() = default;
 Thread::Thread(const Thread &rhs) { *this = rhs; }
-Thread &Thread::operator=(const Thread &rhs) {
+auto Thread::operator=(const Thread &rhs) -> Thread & {
   if (this != &rhs) {
     name = rhs.name;
     func = rhs.func;

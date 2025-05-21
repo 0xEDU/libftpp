@@ -17,7 +17,7 @@ class Thread {
 public:
   Thread();
   Thread(const Thread &);
-  Thread &operator=(const Thread &);
+  auto operator=(const Thread &) -> Thread &;
   ~Thread();
 
   Thread(const std::string &name, std::function<void()> functToExecute);
