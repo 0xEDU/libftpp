@@ -1,5 +1,4 @@
 #include "../includes/client.hpp"
-#include <cstdint>
 
 void Client::connect(const std::string &address, const size_t port) {
   if (clientSocket = socket(AF_INET, SOCK_STREAM, 0); clientSocket == -1) {
@@ -7,11 +6,13 @@ void Client::connect(const std::string &address, const size_t port) {
     exit(EXIT_FAILURE);
   }
 
-  if (fcntl(clientSocket, F_SETFL, O_NONBLOCK) == -1)
+  // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
+  if (fcntl(clientSocket, F_SETFL, O_NONBLOCK) == -1) {
     throw std::runtime_error(
         "Failed to set the non-blocking mode on socket file descriptor");
+  }
 
-  sockaddr_in serverAddress;
+  sockaddr_in serverAddress = {};
   serverAddress.sin_family = AF_INET;
   serverAddress.sin_port = htons(port);
 
@@ -20,11 +21,13 @@ void Client::connect(const std::string &address, const size_t port) {
     herror("gethostbyname");
     exit(EXIT_FAILURE);
   }
+
+  // NOLINTNEXTLINE(cppcoreguidelines-pro-type-cstyle-cast)
   serverAddress.sin_addr = *(struct in_addr *)*host->h_addr_list;
 
-  ::connect(clientSocket, (struct sockaddr *)&serverAddress,
-            sizeof(serverAddress));
-  if (errno != EINPROGRESS) {
+  if (::connect(clientSocket, (struct sockaddr *)&serverAddress,
+                sizeof(serverAddress)) < 0 &&
+      errno != EINPROGRESS) {
     perror("connect");
     exit(EXIT_FAILURE);
   }
@@ -44,7 +47,7 @@ void Client::defineAction(
   actions[messageType] = action;
 }
 
-void Client::send(const Message &msg) {
+void Client::send(const Message &msg) const {
   std::vector<uint8_t> payload = msg.serialize();
 
   uint32_t msgSize = payload.size();
@@ -61,13 +64,13 @@ void Client::send(const Message &msg) {
 }
 
 void Client::update() {
-  uint8_t sizeBuffer[4];
+  std::array<uint8_t, 4> sizeBuffer = {};
   ssize_t bytesReceived =
-      ::recv(clientSocket, &sizeBuffer, sizeof(uint32_t), 0);
+      ::recv(clientSocket, sizeBuffer.data(), sizeof(uint32_t), 0);
 
   if (bytesReceived > 0) {
-    uint32_t msgSize;
-    std::memcpy(&msgSize, sizeBuffer, 4);
+    uint32_t msgSize = 0;
+    std::memcpy(&msgSize, sizeBuffer.data(), 4);
     std::vector<uint8_t> rawBuffer(msgSize);
 
     while (true) {
