@@ -46,7 +46,7 @@ TEST_SRCS =	main_client.cpp \
 
 TEST_NAMES = $(patsubst %.cpp,%, $(TEST_SRCS))
 
-CXFLAGS = -Wall -Wextra -Werror --std=c++20 -ggdb
+CXFLAGS = -Wall -Wextra -Werror --std=c++20 -gdwarf-4
 
 OBJS = $(SRCS:%.cpp=$(PATH_OBJS)%.o)
 TEST_OBJS = $(TEST_SRCS:%.cpp=$(PATH_OBJS)%.o)
