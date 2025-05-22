@@ -6,8 +6,8 @@ void Logger::setLevel(LogLevel lvl) { level = lvl; }
 
 void Logger::log(LogLevel level, const std::string &message) {
   if (static_cast<int>(level) >= static_cast<int>(level)) {
-    std::cout << "[" << timestamp() << "] "
-              << "[" << levelToString(level) << "] " << message << '\n';
+    std::cout << WHITE << "[" << timestamp() << "] " << RESET
+              << levelToString(level) << message << '\n';
   }
 }
 
@@ -22,15 +22,29 @@ void Logger::error(const std::string &message) {
 }
 
 auto Logger::levelToString(LogLevel level) const -> std::string {
+  std::stringstream ss;
+
   switch (level) {
-  case LogLevel::INFO:
-    return "INFO";
-  case LogLevel::WARNING:
-    return "WARNING";
-  case LogLevel::ERROR:
-    return "ERROR";
+  case LogLevel::INFO: {
+    ss << GREEN;
+    ss << "[INFO] ";
+    ss << RESET;
+    return ss.str();
+  }
+  case LogLevel::WARNING: {
+    ss << YELLOW;
+    ss << "[WARNING] ";
+    ss << RESET;
+    return ss.str();
+  }
+  case LogLevel::ERROR: {
+    ss << RED;
+    ss << "[ERROR] ";
+    ss << RESET;
+    return ss.str();
+  }
   default:
-    return "UNKNOWN";
+    return "[UNKNOWN] ";
   }
 }
 
