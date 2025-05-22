@@ -1,5 +1,4 @@
 #include "../includes/test_helper.hpp"
-#include <limits>
 
 TestHelper::~TestHelper() {
   std::vector<std::string> failedTests;
