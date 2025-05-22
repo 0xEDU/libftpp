@@ -8,8 +8,6 @@ protected:
   Memento();
   Memento(const Memento &rhs);
   Memento &operator=(const Memento &rhs);
-  Memento(Memento &&rhs) = delete;
-  auto operator=(Memento &&rhs) -> Memento & = delete;
   ~Memento();
 
 public:
@@ -22,9 +20,7 @@ public:
   public:
     Snapshot();
     Snapshot(const Snapshot &rhs);
-    Snapshot(Snapshot &&rhs) = delete;
-    Snapshot &operator=(const Snapshot &rhs);
-    auto operator=(Snapshot &&rhs) -> Snapshot & = delete;
+    auto operator=(const Snapshot &rhs) -> Snapshot &;
     ~Snapshot();
 
     template <typename T> Snapshot &operator<<(const T &object) {

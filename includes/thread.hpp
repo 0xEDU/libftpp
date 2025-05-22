@@ -17,9 +17,7 @@ class Thread {
 public:
   Thread();
   Thread(const Thread &rhs);
-  Thread(Thread &&rhs) = delete;
   auto operator=(const Thread &rhs) -> Thread &;
-  auto operator=(Thread &&rhs) -> Thread & = delete;
   ~Thread();
 
   Thread(const std::string &name, std::function<void()> functToExecute);
