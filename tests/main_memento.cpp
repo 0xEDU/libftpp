@@ -1,4 +1,5 @@
-#include "memento.hpp"
+#include "../includes/memento.hpp"
+#include "../includes/test_helper.hpp"
 #include <iostream>
 
 class TestClass : public Memento {
@@ -17,6 +18,7 @@ private:
 };
 
 int main() {
+  TestHelper testHelper;
   TestClass myObject;
   myObject.x = 42;
   myObject.y = "Hello";
@@ -29,17 +31,21 @@ int main() {
   myObject.y = "World";
 
   // Output the modified object
-  // Expected Output: "Current state: x = 100, y = World"
   std::cout << "Current state: x = " << myObject.x << ", y = " << myObject.y
             << '\n';
+  testHelper.expectTrue(
+      myObject.x == 100 && myObject.y == "World",
+      "Object should be modified to x = 100, y = World");
 
   // Restore the object to its saved state
   myObject.load(savedState);
 
   // Output the restored object
-  // Expected Output: "Restored state: x = 42, y = Hello"
   std::cout << "Restored state: x = " << myObject.x << ", y = " << myObject.y
             << '\n';
+  testHelper.expectTrue(
+      myObject.x == 42 && myObject.y == "Hello",
+      "Object should be restored to x = 42, y = Hello");
 
   return 0;
 }
