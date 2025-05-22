@@ -1,29 +1,43 @@
-#include "thread_safe_queue.hpp"
-#include <iostream>
+#include "../includes/thread_safe_iostream.hpp"
+#include "../includes/thread_safe_queue.hpp"
 #include <thread>
 
-void testPush(ThreadSafeQueue<int> &p_queue, int p_value) {
+void testPushFront(ThreadSafeQueue<int> &p_queue, int p_value) {
   p_queue.push_back(p_value);
-  std::cout << "Pushed value: " << p_value << '\n';
+  threadSafeCout << "Pushed value: " << p_value << '\n';
 }
 
-void testPop(ThreadSafeQueue<int> &p_queue) {
+void testPushBack(ThreadSafeQueue<int> &p_queue, int p_value) {
+  p_queue.push_front(p_value);
+  threadSafeCout << "Pushed value: " << p_value << '\n';
+}
+
+void testPopFront(ThreadSafeQueue<int> &p_queue) {
   try {
     int value = p_queue.pop_front();
-    std::cout << "Popped value: " << value << '\n';
+    threadSafeCout << "Popped value: " << value << '\n';
   } catch (const std::runtime_error &e) {
-    std::cout << e.what() << '\n';
+    threadSafeCout << e.what() << '\n';
+  }
+}
+
+void testPopBack(ThreadSafeQueue<int> &p_queue) {
+  try {
+    int value = p_queue.pop_back();
+    threadSafeCout << "Popped value: " << value << '\n';
+  } catch (const std::runtime_error &e) {
+    threadSafeCout << e.what() << '\n';
   }
 }
 
 int main() {
   ThreadSafeQueue<int> myQueue;
 
-  std::thread thread1(testPush, std::ref(myQueue), 10);
-  std::thread thread2(testPush, std::ref(myQueue), 20);
-  std::thread thread3(testPop, std::ref(myQueue));
-  std::thread thread4(testPop, std::ref(myQueue));
-  std::thread thread5(testPop, std::ref(myQueue));
+  std::thread thread1(testPushFront, std::ref(myQueue), 10);
+  std::thread thread2(testPushBack, std::ref(myQueue), 20);
+  std::thread thread3(testPopFront, std::ref(myQueue));
+  std::thread thread4(testPopBack, std::ref(myQueue));
+  std::thread thread5(testPopFront, std::ref(myQueue));
 
   thread1.join();
   thread2.join();
