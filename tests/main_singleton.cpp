@@ -1,36 +1,35 @@
-#include "singleton.hpp"
+#include "../includes/singleton.hpp"
+#include "../includes/test_helper.hpp"
 #include <iostream>
 
 class MyClass {
+  int answer = 0;
 public:
   MyClass(int value) {
     std::cout << "MyClass constructor, with value [" << value << "]" << '\n';
+    answer = value;
   }
 
-  void printMessage() { std::cout << "Hello from MyClass" << '\n'; }
+  auto theAnswer() -> int { return answer; }
 };
 
 int main() {
-  try {
-    // This should throw an exception as instance is not yet created
+  TestHelper testHelper;
+
+  testHelper.expectThrow([](){
     Singleton<MyClass>::instance();
-  } catch (const std::exception &e) {
-    std::cout << "Exception: " << e.what()
-              << '\n'; // Output: "Exception: Instance not yet created"
-  }
+  }, "Singleton should throw an exception if instance is not created");
 
   Singleton<MyClass>::instantiate(42); // Setting up the instance
 
-  Singleton<MyClass>::instance()
-      ->printMessage(); // Output: "Hello from MyClass"
+  int answer = Singleton<MyClass>::instance()
+      ->theAnswer(); // Output: "Hello from MyClass"
+  testHelper.expectTrue(answer == 42,
+                "Singleton instance should execute functions correctly");
 
-  try {
-    // This should throw an exception as instance is already created
+  testHelper.expectThrow([](){
     Singleton<MyClass>::instantiate(100);
-  } catch (const std::exception &e) {
-    std::cout << "Exception: " << e.what()
-              << '\n'; // Output: "Exception: Instance already created"
-  }
+  }, "Singleton should throw an exception if instance is already created");
 
   return 0;
 }
