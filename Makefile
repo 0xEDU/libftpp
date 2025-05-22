@@ -42,7 +42,8 @@ TEST_SRCS =	main_client.cpp \
 			main_random_2D_coordinate_generator.cpp \
 			main_perlin_noise_2D.cpp \
 			main_chronometer.cpp \
-			main_logger.cpp
+			main_logger.cpp \
+			main_test_helper.cpp
 
 TEST_NAMES = $(patsubst %.cpp,%, $(TEST_SRCS))
 
