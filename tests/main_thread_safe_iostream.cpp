@@ -1,5 +1,4 @@
-#include "thread_safe_iostream.hpp"
-#include <iostream>
+#include "../includes/thread_safe_iostream.hpp"
 #include <thread>
 
 void printNumbers(const std::string &p_prefix) {
