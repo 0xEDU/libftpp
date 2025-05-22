@@ -1,9 +1,11 @@
 #include "../includes/random_2D_coordinate_generator.hpp"
+#include "../includes/test_helper.hpp"
 #include <iostream>
 #include <utility>
 #include <vector>
 
 int main() {
+  TestHelper testHelper;
   Random2DCoordinateGenerator randomGenerator;
 
   // Store a list of coordinates to test
@@ -34,14 +36,9 @@ int main() {
               << "): " << randomNumber << '\n';
 
     // Check if the number is the same as generated the first time
-    if (randomNumber == firstGenerated[i]) {
-      std::cout << "  => Matches the previous generated value. Consistent!"
-                << '\n'; // Expected: Should always match
-    } else {
-      std::cout
-          << "  => Does not match the previous generated value. Inconsistent!"
-          << '\n';
-    }
+    testHelper.expectTrue(
+        randomNumber == firstGenerated[i],
+        "Random number should be the same as the first generated value.");
   }
   std::cout << '\n';
 
