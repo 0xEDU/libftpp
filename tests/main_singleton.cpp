@@ -4,6 +4,7 @@
 
 class MyClass {
   int answer = 0;
+
 public:
   MyClass(int value) {
     std::cout << "MyClass constructor, with value [" << value << "]" << '\n';
@@ -16,20 +17,20 @@ public:
 int main() {
   TestHelper testHelper;
 
-  testHelper.expectThrow([](){
-    Singleton<MyClass>::instance();
-  }, "Singleton should throw an exception if instance is not created");
+  testHelper.expectThrow(
+      []() { Singleton<MyClass>::instance(); },
+      "Singleton should throw an exception if instance is not created");
 
   Singleton<MyClass>::instantiate(42); // Setting up the instance
 
   int answer = Singleton<MyClass>::instance()
-      ->theAnswer(); // Output: "Hello from MyClass"
-  testHelper.expectTrue(answer == 42,
-                "Singleton instance should execute functions correctly");
+                   ->theAnswer(); // Output: "Hello from MyClass"
+  testHelper.expectTrue(
+      answer == 42, "Singleton instance should execute functions correctly");
 
-  testHelper.expectThrow([](){
-    Singleton<MyClass>::instantiate(100);
-  }, "Singleton should throw an exception if instance is already created");
+  testHelper.expectThrow(
+      []() { Singleton<MyClass>::instantiate(100); },
+      "Singleton should throw an exception if instance is already created");
 
   return 0;
 }
