@@ -1,13 +1,19 @@
-#include "persistent_worker.hpp"
-#include "thread_safe_iostream.hpp"
-#include <iostream>
+#include "../includes/persistent_worker.hpp"
+#include "../includes/thread_safe_iostream.hpp"
+#include <chrono>
 
 int main() {
   PersistentWorker worker;
 
-  auto task1 = []() { threadSafeCout << "Executing Task 1" << '\n'; };
+  auto task1 = []() {
+    threadSafeCout << "Executing Task 1" << '\n';
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+  };
 
-  auto task2 = []() { threadSafeCout << "Executing Task 2" << '\n'; };
+  auto task2 = []() {
+    threadSafeCout << "Executing Task 2" << '\n';
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+  };
 
   worker.addTask("Task1", task1);
   worker.addTask("Task2", task2);
