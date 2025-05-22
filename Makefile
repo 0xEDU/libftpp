@@ -21,7 +21,8 @@ SRCS =	client.cpp \
 		random_2D_coordinate_generator.cpp \
 		perlin_noise_2D.cpp \
 		chronometer.cpp \
-		logger.cpp
+		logger.cpp \
+		test_helper.cpp
 
 TEST_SRCS =	main_client.cpp \
 			main_data_buffer.cpp \
