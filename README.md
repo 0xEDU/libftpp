@@ -47,5 +47,8 @@ make test
 
 This will compile the mains in the `tests/` directory and link them against the `libftpp.a` library. The resulting executables will be placed in the `bin/` directory.
 
-Most tests are equipped with a test framework that will pretty print the output. Threading classes need to be manually tested with `valgrind --tool=helgrind ./bin/<threading-binary>` to check for race conditions or deadlocks.
+Most tests are equipped with a test framework that will pretty print the output, but there are a few exceptions:
+
+- **Threading** classes need to be manually tested with `valgrind --tool=helgrind ./bin/<threading-binary>` to check for race conditions or deadlocks.
+- **Networking** classes should be manually tested by first running the server `./bin/main_server` then running clients in separate terminals with `./bin/main_client`. The server will print the received messages, and the clients will print the responses from the server.
 
