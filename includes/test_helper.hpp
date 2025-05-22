@@ -4,6 +4,7 @@
 #include <functional>
 #include <iostream>
 #include <vector>
+#include <cmath>
 
 #define GREEN "\033[1;32m"
 #define RED "\033[1;31m"
@@ -26,6 +27,7 @@ public:
   void expectFalse(bool condition, std::string testName);
   void expectThrow(std::function<void()> func, std::string testName);
   void expectNotThrow(std::function<void()> func, std::string testName);
+  void expectFloatEqual(float a, float b, std::string testName);
 };
 
 #endif

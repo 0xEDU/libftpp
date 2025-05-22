@@ -1,4 +1,5 @@
 #include "../includes/test_helper.hpp"
+#include <limits>
 
 TestHelper::~TestHelper() {
   std::vector<std::string> failedTests;
@@ -16,15 +17,15 @@ TestHelper::~TestHelper() {
   std::cout << "\n";
 
   if (failedTests.empty()) {
-    std::cout << GREEN << "\n[OK] All tests passed!" << RESET << "\n";
+    std::cout << GREEN << "\n[OK]" << WHITE << " All tests passed!" << RESET << "\n";
     return;
   }
 
-  std::cout << RED << "\n[NOK] Some tests failed!" << RESET << "\n";
+  std::cout << RED << "\n[NOK]" << WHITE << " Some tests failed!" << RESET
+            << "\n\n";
 
   for (auto &failedTest : failedTests) {
-    std::cout << WHITE << "\nFailed tests: " << RED << failedTest << RESET
-              << "\n";
+    std::cout << WHITE << "-> " << RED << failedTest << RESET << "\n";
   }
 }
 
@@ -54,11 +55,19 @@ void TestHelper::expectThrow(std::function<void()> func, std::string testName) {
 }
 
 void TestHelper::expectNotThrow(std::function<void()> func,
-                                 std::string testName) {
+                                std::string testName) {
   try {
     func();
     testCases.push_back({true, testName});
   } catch (...) {
+    testCases.push_back({false, testName});
+  }
+}
+
+void TestHelper::expectFloatEqual(float a, float b, std::string testName) {
+  if (std::fabs(a - b) < 1e-6) {
+    testCases.push_back({true, testName});
+  } else {
     testCases.push_back({false, testName});
   }
 }
