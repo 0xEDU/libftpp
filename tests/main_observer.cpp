@@ -17,13 +17,15 @@ int main() {
 
   // Subscribe first lambda to EVENT_TWO
   observer.subscribe(EventType::EVENT_TWO, [&]() {
-    std::cout << PURPLE << "Event Two triggered (First subscriber)" << RESET << '\n';
+    std::cout << PURPLE << "Event Two triggered (First subscriber)" << RESET
+              << '\n';
     eventCount++;
   });
 
   // Subscribe second lambda to EVENT_TWO
   observer.subscribe(EventType::EVENT_TWO, [&]() {
-    std::cout << PURPLE << "Event Two triggered (Second subscriber)" << RESET << '\n';
+    std::cout << PURPLE << "Event Two triggered (Second subscriber)" << RESET
+              << '\n';
     eventCount++;
   });
 
