@@ -7,12 +7,10 @@ int main() {
 
   auto task1 = []() {
     threadSafeCout << "Executing Task 1" << '\n';
-    std::this_thread::sleep_for(std::chrono::milliseconds(10));
   };
 
   auto task2 = []() {
     threadSafeCout << "Executing Task 2" << '\n';
-    std::this_thread::sleep_for(std::chrono::milliseconds(10));
   };
 
   worker.addTask("Task1", task1);
