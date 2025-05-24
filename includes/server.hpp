@@ -3,7 +3,6 @@
 
 #include "../includes/message.hpp"
 
-#include <algorithm>
 #include <cstddef>
 #include <fcntl.h>
 #include <functional>
@@ -14,6 +13,7 @@
 #include <unistd.h>
 
 class Server {
+  int idCounter = 0;
   int serverSocket = 0;
   std::map<Message::Type,
            std::function<void(long long &clientID, const Message &msg)>>

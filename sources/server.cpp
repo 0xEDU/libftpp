@@ -127,7 +127,7 @@ void Server::acceptClient() {
       // NOLINTNEXTLINE(cppcoreguidelines-pro-type-cstyle-cast)
       accept(serverSocket, (struct sockaddr *)&clientAddr, &clientAddrLen);
   if (clientSocket >= 0) {
-    long long clientID = clientSockets.size(); // NOLINT
+    long long clientID = idCounter++; // NOLINT
     clientSockets[clientID] = clientSocket;
     pollFDs.push_back({clientSocket, POLLIN, 0});
   } else if (errno != EAGAIN && errno != EWOULDBLOCK) {
@@ -176,8 +176,11 @@ void Server::update() {
       if (bytesReceived < 0) {
         if (errno != EAGAIN && errno != EWOULDBLOCK) {
           perror("recv");
-          shouldCloseClients.push_back(clientID);
         }
+        continue;
+      }
+      if (bytesReceived == 0) {
+        shouldCloseClients.push_back(clientID);
         continue;
       }
       uint32_t msgSize = 0;

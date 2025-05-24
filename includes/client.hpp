@@ -18,7 +18,10 @@
 
 class Client {
   int clientSocket = 0;
+  bool isConnected = false;
   std::map<Message::Type, std::function<void(const Message &msg)>> actions;
+
+  void cleanup();
 
 public:
   Client() = default;
@@ -32,7 +35,7 @@ public:
   void disconnect();
   void defineAction(const Message::Type &messageType,
                     const std::function<void(const Message &msg)> &action);
-  void send(const Message &msg) const;
+  void send(const Message &msg);
   void update();
 };
 

@@ -1,5 +1,5 @@
-#include "client.hpp"
-#include "thread_safe_iostream.hpp"
+#include "../includes/client.hpp"
+#include "../includes/thread_safe_iostream.hpp"
 #include <string>
 
 int main() {

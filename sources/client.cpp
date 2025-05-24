@@ -1,9 +1,21 @@
 #include "../includes/client.hpp"
 
+void Client::cleanup() {
+  isConnected = false;
+  if (clientSocket != -1) {
+    if (close(clientSocket) == -1) {
+      perror("close");
+    }
+    clientSocket = -1;
+  }
+  actions.clear();
+}
+
 void Client::connect(const std::string &address, const size_t port) {
   if (clientSocket = socket(AF_INET, SOCK_STREAM, 0); clientSocket == -1) {
     perror("socket");
-    exit(EXIT_FAILURE);
+    cleanup();
+    return;
   }
 
   // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
@@ -18,8 +30,9 @@ void Client::connect(const std::string &address, const size_t port) {
 
   hostent *host = gethostbyname(address.c_str());
   if (host == nullptr) {
-    herror("gethostbyname");
-    exit(EXIT_FAILURE);
+    perror("gethostbyname");
+    cleanup();
+    return;
   }
 
   // NOLINTNEXTLINE(cppcoreguidelines-pro-type-cstyle-cast)
@@ -29,16 +42,22 @@ void Client::connect(const std::string &address, const size_t port) {
                 sizeof(serverAddress)) < 0 &&
       errno != EINPROGRESS) {
     perror("connect");
-    exit(EXIT_FAILURE);
+    cleanup();
+    return;
   }
+
+  isConnected = true;
 }
 
 void Client::disconnect() {
-  if (close(clientSocket) == -1) {
+  if (clientSocket != -1 && close(clientSocket) == -1) {
     perror("close");
-    exit(EXIT_FAILURE);
+    cleanup();
+    return;
   }
+  isConnected = false;
   clientSocket = -1;
+  actions.clear();
 }
 
 void Client::defineAction(
@@ -47,23 +66,31 @@ void Client::defineAction(
   actions[messageType] = action;
 }
 
-void Client::send(const Message &msg) const {
+void Client::send(const Message &msg) {
+  if (!isConnected) {
+    return;
+  }
   std::vector<uint8_t> payload = msg.serialize();
 
   uint32_t msgSize = payload.size();
 
   if (::send(clientSocket, &msgSize, sizeof(msgSize), 0) == -1) {
     perror("send");
-    exit(EXIT_FAILURE);
+    cleanup();
+    return;
   }
 
   if (::send(clientSocket, payload.data(), payload.size(), 0) == -1) {
     perror("send");
-    exit(EXIT_FAILURE);
+    cleanup();
+    return;
   }
 }
 
 void Client::update() {
+  if (!isConnected) {
+    return;
+  }
   std::array<uint8_t, 4> sizeBuffer = {};
   ssize_t bytesReceived =
       ::recv(clientSocket, sizeBuffer.data(), sizeof(uint32_t), 0);
@@ -90,8 +117,6 @@ void Client::update() {
   } else if (bytesReceived == 0) {
     // Server disconnected
     disconnect();
-  } else if (errno != EAGAIN && errno != EWOULDBLOCK) {
-    perror("recv");
-    exit(EXIT_FAILURE);
+    return;
   }
 }
