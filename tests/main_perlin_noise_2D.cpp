@@ -1,11 +1,11 @@
-#include "perlin_noise_2D.hpp"
+#include "../includes/perlin_noise_2D.hpp"
 #include <cmath>
 #include <iostream>
 
 int main() {
   PerlinNoise2D perlin;
 
-  const int gridSize = 50;
+  const int gridSize = 20;
   const char *heatmapColors[] = {
       "\033[48;5;17m",  // dark blue
       "\033[48;5;18m",  // blue
