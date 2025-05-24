@@ -28,7 +28,7 @@ TEST_SRCS =	main_client.cpp \
 			main_data_buffer.cpp \
 			main_memento.cpp \
 			main_observer.cpp \
-			main_persistant_worker.cpp \
+			main_persistent_worker.cpp \
 			main_pool.cpp \
 			main_server.cpp \
 			main_singleton.cpp \
