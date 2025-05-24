@@ -14,7 +14,8 @@ int main() {
   std::this_thread::sleep_for(std::chrono::milliseconds(1500)); // simulate work
 
   chrono.stop();
-  testHelper.expectFalse(chrono.isRunning(), "Chronometer should not be running");
+  testHelper.expectFalse(chrono.isRunning(),
+                         "Chronometer should not be running");
   std::cout << "Elapsed time: " << chrono.elapsedMilliseconds() << " ms\n";
   std::cout << "Elapsed time: " << chrono.elapsedSeconds() << " s\n";
 

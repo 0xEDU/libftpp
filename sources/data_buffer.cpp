@@ -1,9 +1,7 @@
 #include "../includes/data_buffer.hpp"
 
 DataBuffer::DataBuffer() = default;
-DataBuffer::~DataBuffer() {
-  dataBuffer.clear();
-};
+DataBuffer::~DataBuffer() { dataBuffer.clear(); };
 
 DataBuffer::DataBuffer(const DataBuffer &rhs) { *this = rhs; }
 

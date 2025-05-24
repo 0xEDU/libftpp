@@ -1,10 +1,10 @@
 #ifndef TEST_HELPER_HPP
 #define TEST_HELPER_HPP
 
+#include <cmath>
 #include <functional>
 #include <iostream>
 #include <vector>
-#include <cmath>
 
 #define GREEN "\033[1;32m"
 #define RED "\033[1;31m"

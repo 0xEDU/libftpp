@@ -1,13 +1,9 @@
 #include "../includes/test_helper.hpp"
 #include <assert.h>
 
-void thrower() {
-  throw std::runtime_error("Error");
-}
+void thrower() { throw std::runtime_error("Error"); }
 
-void notThrower() {
-  return;
-}
+void notThrower() { return; }
 
 auto main() -> int {
   TestHelper testHelper;

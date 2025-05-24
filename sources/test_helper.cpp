@@ -16,7 +16,8 @@ TestHelper::~TestHelper() {
   std::cout << "\n";
 
   if (failedTests.empty()) {
-    std::cout << GREEN << "\n[OK]" << WHITE << " All tests passed!" << RESET << "\n";
+    std::cout << GREEN << "\n[OK]" << WHITE << " All tests passed!" << RESET
+              << "\n";
     return;
   }
 

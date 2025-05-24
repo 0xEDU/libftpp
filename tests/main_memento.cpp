@@ -33,9 +33,8 @@ int main() {
   // Output the modified object
   std::cout << "Current state: x = " << myObject.x << ", y = " << myObject.y
             << '\n';
-  testHelper.expectTrue(
-      myObject.x == 100 && myObject.y == "World",
-      "Object should be modified to x = 100, y = World");
+  testHelper.expectTrue(myObject.x == 100 && myObject.y == "World",
+                        "Object should be modified to x = 100, y = World");
 
   // Restore the object to its saved state
   myObject.load(savedState);
@@ -43,9 +42,8 @@ int main() {
   // Output the restored object
   std::cout << "Restored state: x = " << myObject.x << ", y = " << myObject.y
             << '\n';
-  testHelper.expectTrue(
-      myObject.x == 42 && myObject.y == "Hello",
-      "Object should be restored to x = 42, y = Hello");
+  testHelper.expectTrue(myObject.x == 42 && myObject.y == "Hello",
+                        "Object should be restored to x = 42, y = Hello");
 
   return 0;
 }
